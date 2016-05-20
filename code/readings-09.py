@@ -4,9 +4,12 @@ import numpy
 def main():
     script = sys.argv[0]
     action = sys.argv[1]
-    filenames = sys.argv[2:]
-    assert action in ['--min', '--mean', '--max'], \
-           'Action is not one of --min, --mean, or --max: ' + action
+    if action not in ['--min', '--mean', '--max']: # if no action given
+        action = '--mean'    # set a default action, that being mean
+        filenames = sys.argv[1:] # start the filenames one place earlier in the argv list
+    else:
+        filenames = sys.argv[2:]
+
     if len(filenames) == 0:
         process(sys.stdin, action)
     else:
@@ -24,6 +27,6 @@ def process(filename, action):
         values = data.max(axis=1)
 
     for m in values:
-        print(m)
+        print m
 
 main()

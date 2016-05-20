@@ -3,6 +3,13 @@ import numpy
 
 def main():
     script = sys.argv[0]
+    if len(sys.argv) == 1: # no arguments, so print help message
+        print 'Usage: python readings-08.py action filenames\n \
+               action must be one of --min --mean --max\n \
+               if filenames is blank, input is taken from stdin;\n \
+               otherwise, each filename in the list of arguments is processed in turn'
+        return
+
     action = sys.argv[1]
     filenames = sys.argv[2:]
     assert action in ['--min', '--mean', '--max'], \
@@ -24,6 +31,6 @@ def process(filename, action):
         values = data.max(axis=1)
 
     for m in values:
-        print(m)
+        print m
 
 main()

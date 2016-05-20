@@ -5,8 +5,8 @@ def main():
     script = sys.argv[0]
     action = sys.argv[1]
     filenames = sys.argv[2:]
-    assert action in ['--min', '--mean', '--max'], \
-           'Action is not one of --min, --mean, or --max: ' + action
+    assert action in ['-n', '-m', '-x'], \
+           'Action is not one of -n, -m, or -x: ' + action
     if len(filenames) == 0:
         process(sys.stdin, action)
     else:
@@ -16,14 +16,14 @@ def main():
 def process(filename, action):
     data = numpy.loadtxt(filename, delimiter=',')
 
-    if action == '--min':
+    if action == '-n':
         values = data.min(axis=1)
-    elif action == '--mean':
+    elif action == '-m':
         values = data.mean(axis=1)
-    elif action == '--max':
+    elif action == '-x':
         values = data.max(axis=1)
 
     for m in values:
-        print(m)
+        print m
 
 main()

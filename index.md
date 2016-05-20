@@ -48,8 +48,8 @@ To do all that, we'll have to learn a little bit about programming.
 > Learners need to understand the concepts of files and directories
 > (including the working directory) and how to start a Python
 > interpreter before tackling this lesson. This lesson references the Jupyter (IPython)
-> Notebook although it can be taught through any Python interpreter. The commands in this
-> this lesson pertain to Python 2.7.
+> Notebook although it can be taught through any Python interpreter.
+> The commands in this lesson pertain to **Python 3**.
 
 > ## Getting ready {.getready}
 >
@@ -62,6 +62,25 @@ To do all that, we'll have to learn a little bit about programming.
 >
 > ~~~ {.input}
 > $ cd && cd Desktop/python-novice-inflammation/data
+> ~~~
+
+> ## Starting Python {.getready}
+>
+> If you will be using the Jupyter (IPython) notebook for the lesson,
+> you should have already
+> [installed Anaconda](http://swcarpentry.github.io/workshop-template/#setup)
+> which includes the notebook.
+>
+> To start the notebook, open a terminal or git bash and type the command:
+>
+> ~~~ {.input}
+> $ jupyter notebook
+> ~~~
+>
+> To start the Python intrepreter without the notebook, open a terminal or git bash and type the command:
+>
+> ~~~ {.input}
+> $ python
 > ~~~
 
 ## Topics
@@ -80,7 +99,6 @@ To do all that, we'll have to learn a little bit about programming.
 
 ## Other Resources
 
-*   [Motivation](motivation.html)
 *   [Reference](reference.html)
 *   [Discussion](discussion.html)
 *   [Instructor's Guide](instructors.html)

@@ -10,7 +10,7 @@ minutes: 30
 > *   Handle flags and files separately in a command-line program.
 > *   Read data from standard input in a program so that it can be used in a pipeline.
 
-The IPython Notebook and other interactive tools are great for prototyping code and exploring data,
+The Jupyter Notebook and other interactive tools are great for prototyping code and exploring data,
 but sooner or later we will want to use our program in a pipeline
 or run it in a shell script to process thousands of data files.
 In order to do that,
@@ -27,7 +27,7 @@ and prints the average inflammation per patient.
 This program does exactly what we want - it prints the average inflammation per patient
 for a given file.
 
-~~~
+~~~ {.bash}
 $ python readings.py --mean inflammation-01.csv
 5.45
 5.425
@@ -40,13 +40,13 @@ $ python readings.py --mean inflammation-01.csv
 
 We might also want to look at the minimum of the first four lines
 
-~~~
+~~~ {.bash}
 $ head -4 inflammation-01.csv | python readings.py --min
 ~~~
 
 or the maximum inflammations in several files one after another:
 
-~~~
+~~~ {.bash}
 $ python readings.py --max inflammation-*.csv
 ~~~
 
@@ -68,7 +68,7 @@ save the following in a text file called `sys-version.py`:
 
 ~~~ {.python}
 import sys
-print 'version is', sys.version
+print('version is', sys.version)
 ~~~
 
 The first line imports a library called `sys`,
@@ -77,20 +77,20 @@ It defines values such as `sys.version`,
 which describes which version of Python we are running.
 We can run this script from the command line like this:
 
-~~~ {.input}
+~~~ {.bash}
 $ python sys-version.py
 ~~~
 
 ~~~ {.output}
-version is 2.7.5 |Anaconda 1.8.0 (x86_64)| (default, Oct 24 2013, 07:02:20)
-[GCC 4.0.1 (Apple Inc. build 5493)]
+version is 3.4.3+ (default, Jul 28 2015, 13:17:50)
+[GCC 4.9.3]
 ~~~
 
 Create another file called `argv-list.py` and save the following text to it.
 
 ~~~ {.python}
 import sys
-print 'sys.argv is', sys.argv
+print('sys.argv is', sys.argv)
 ~~~
 
 The strange name `argv` stands for "argument values".
@@ -100,7 +100,7 @@ and puts them in the list `sys.argv`
 so that the program can determine what they were.
 If we run this program with no arguments:
 
-~~~ {.input}
+~~~ {.bash}
 $ python argv-list.py
 ~~~
 
@@ -112,7 +112,7 @@ the only thing in the list is the full path to our script,
 which is always `sys.argv[0]`.
 If we run it with a few arguments, however:
 
-~~~ {.input}
+~~~ {.bash}
 $ python argv-list.py first second third
 ~~~
 ~~~ {.output}
@@ -128,7 +128,7 @@ and a placeholder for the function that does the actual work.
 By convention this function is usually called `main`,
 though we can call it whatever we want:
 
-~~~ {.input}
+~~~ {.bash}
 $ cat readings-01.py
 ~~~
 
@@ -141,7 +141,7 @@ def main():
     filename = sys.argv[1]
     data = numpy.loadtxt(filename, delimiter=',')
     for m in data.mean(axis=1):
-        print m
+        print(m)
 ~~~
 
 This function gets the name of the script from `sys.argv[0]`,
@@ -149,7 +149,7 @@ because that's where it's always put,
 and the name of the file to process from `sys.argv[1]`.
 Here's a simple test:
 
-~~~ {.input}
+~~~ {.bash}
 $ python readings-01.py inflammation-01.csv
 ~~~
 
@@ -157,7 +157,7 @@ There is no output because we have defined a function,
 but haven't actually called it.
 Let's add a call to `main`:
 
-~~~ {.input}
+~~~ {.bash}
 $ cat readings-02.py
 ~~~
 
@@ -170,14 +170,14 @@ def main():
     filename = sys.argv[1]
     data = numpy.loadtxt(filename, delimiter=',')
     for m in data.mean(axis=1):
-        print m
+        print(m)
 
 main()
 ~~~
 
 and run that:
 
-~~~ {.input}
+~~~ {.bash}
 $ python readings-02.py inflammation-01.csv
 ~~~
 
@@ -252,6 +252,9 @@ $ python readings-02.py inflammation-01.csv
 > we should use Python's `argparse` library,
 > which handles common cases in a systematic way,
 > and also makes it easy for us to provide sensible error messages for our users.
+> We will not cover this module in this lesson
+> but you can go to Tshepang Lekhonkhobe's [Argparse tutorial](http://docs.python.org/dev/howto/argparse.html)
+> that is part of Python's Official Documentation.
 
 ## Handling Multiple Files
 
@@ -260,14 +263,14 @@ Since 60 lines of output per file is a lot to page through,
 we'll start by using three smaller files,
 each of which has three days of data for two patients:
 
-~~~ {.input}
+~~~ {.bash}
 $ ls small-*.csv
 ~~~
 ~~~ {.output}
 small-01.csv small-02.csv small-03.csv
 ~~~
 
-~~~ {.input}
+~~~ {.bash}
 $ cat small-01.csv
 ~~~
 ~~~ {.output}
@@ -275,7 +278,7 @@ $ cat small-01.csv
 0,1,2
 ~~~
 
-~~~ {.input}
+~~~ {.bash}
 $ python readings-02.py small-01.csv
 ~~~
 ~~~ {.output}
@@ -310,7 +313,7 @@ and includes all the filenames.
 Here's our changed program
 `readings-03.py`:
 
-~~~ {.input}
+~~~ {.bash}
 $ cat readings-03.py
 ~~~
 
@@ -323,14 +326,14 @@ def main():
     for filename in sys.argv[1:]:
         data = numpy.loadtxt(filename, delimiter=',')
         for m in data.mean(axis=1):
-            print m
+            print(m)
 
 main()
 ~~~
 
 and here it is in action:
 
-~~~ {.input}
+~~~ {.bash}
 $ python readings-03.py small-01.csv small-02.csv
 ~~~
 
@@ -360,7 +363,7 @@ The next step is to teach our program to pay attention to the `--min`, `--mean`,
 These always appear before the names of the files,
 so we could just do this:
 
-~~~ {.input}
+~~~ {.bash}
 $ cat readings-04.py
 ~~~
 
@@ -384,14 +387,14 @@ def main():
             values = data.max(axis=1)
 
         for m in values:
-            print m
+            print(m)
 
 main()
 ~~~
 
 This works:
 
-~~~ {.input}
+~~~ {.bash}
 $ python readings-04.py --max small-01.csv
 ~~~
 ~~~ {.output}
@@ -403,18 +406,21 @@ but there are several things wrong with it:
 
 1.  `main` is too large to read comfortably.
 
-2.  If `action` isn't one of the three recognized flags,
-    the program loads each file but does nothing with it
-    (because none of the branches in the conditional match).
-    [Silent failures](reference.html#silence-failure) like this
-    are always hard to debug.
+2. If we do not specify at least two additional arguments on the
+   command-line, one for the **flag** and one for the **filename**, but only
+   one, the program will not throw an exception but will run. It assumes that the file
+   list is empty, as `sys.argv[1]` will be considered the `action`, even if it
+   is a filename. [Silent failures](reference.html#silence-failure)  like this
+   are always hard to debug.
+
+3. The program should check if the submitted `action` is one of the three recognized flags.
 
 This version pulls the processing of each file out of the loop into a function of its own.
 It also checks that `action` is one of the allowed flags
 before doing any processing,
 so that the program fails fast:
 
-~~~ {.input}
+~~~ {.bash}
 $ cat readings-05.py
 ~~~
 
@@ -442,18 +448,13 @@ def process(filename, action):
         values = data.max(axis=1)
 
     for m in values:
-        print m
+        print(m)
 
 main()
 ~~~
 
 This is four lines longer than its predecessor,
 but broken into more digestible chunks of 8 and 12 lines.
-
-Python has a module named [argparse](http://docs.python.org/dev/library/argparse.html)
-that helps handle complex command-line flags. We will not cover this module in this lesson
-but you can go to Tshepang Lekhonkhobe's [Argparse tutorial](http://docs.python.org/dev/howto/argparse.html)
-that is part of Python's Official Documentation.
 
 ## Handling Standard Input
 
@@ -463,7 +464,7 @@ redirect input to it,
 and so on.
 Let's experiment in another script called `count-stdin.py`:
 
-~~~ {.input}
+~~~ {.bash}
 $ cat count-stdin.py
 ~~~
 
@@ -474,7 +475,7 @@ count = 0
 for line in sys.stdin:
     count += 1
 
-print count, 'lines in standard input'
+print(count, 'lines in standard input')
 ~~~
 
 This little program reads lines from a special "file" called `sys.stdin`,
@@ -484,7 +485,7 @@ take care of that when the program starts up ---
 but we can do almost anything with it that we could do to a regular file.
 Let's try running it as if it were a regular command-line program:
 
-~~~ {.input}
+~~~ {.bash}
 $ python count-stdin.py < small-01.csv
 ~~~
 
@@ -494,8 +495,8 @@ $ python count-stdin.py < small-01.csv
 
 A common mistake is to try to run something that reads from standard input like this:
 
-~~~ {.input}
-$ count_stdin.py small-01.csv
+~~~ {.bash}
+$ python count_stdin.py small-01.csv
 ~~~
 
 i.e., to forget the `<` character that redirect the file to standard input.
@@ -510,13 +511,16 @@ We now need to rewrite the program so that it loads data from `sys.stdin` if no 
 Luckily,
 `numpy.loadtxt` can handle either a filename or an open file as its first parameter,
 so we don't actually need to change `process`.
-That leaves `main`:
+Only `main` changes:
 
-~~~ {.input}
+~~~ {.bash}
 $ cat readings-06.py
 ~~~
 
 ~~~ {.python}
+import sys
+import numpy
+
 def main():
     script = sys.argv[0]
     action = sys.argv[1]
@@ -528,12 +532,27 @@ def main():
     else:
         for f in filenames:
             process(f, action)
+
+def process(filename, action):
+    data = numpy.loadtxt(filename, delimiter=',')
+
+    if action == '--min':
+        values = data.min(axis=1)
+    elif action == '--mean':
+        values = data.mean(axis=1)
+    elif action == '--max':
+        values = data.max(axis=1)
+
+    for m in values:
+        print(m)
+
+main()
 ~~~
 
 Let's try it out:
 
-~~~ {.input}
-$ python readings-06.py --mean small-01.csv
+~~~ {.bash}
+$ python readings-06.py --mean < small-01.csv
 ~~~
 
 ~~~ {.output}

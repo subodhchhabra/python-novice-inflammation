@@ -22,7 +22,7 @@ and didn't want to generate a figure for every single one?
 Commenting out the figure-drawing code is a nuisance.
 Also, what if we want to use that code again,
 on a different dataset or at a different point in our program?
-Cutting and pasting it is going to make our code get very long and very repetative,
+Cutting and pasting it is going to make our code get very long and very repetitive,
 very quickly.
 We'd like a way to package our code so that it is easier to reuse,
 and Python provides for this by letting us define things called 'functions' -
@@ -39,8 +39,7 @@ The function definition opens with the word `def`,
 which is followed by the name of the function
 and a parenthesized list of parameter names.
 The [body](reference.html#function-body) of the function --- the
-statements that are executed when it runs --- is indented below the definition line,
-typically by four spaces.
+statements that are executed when it runs --- is indented below the definition line.
 
 When we call the function,
 the values we pass to it are assigned to those variables
@@ -52,136 +51,80 @@ Let's try running our function.
 Calling our own function is no different from calling any other function:
 
 ~~~ {.python}
-print 'freezing point of water:', fahr_to_kelvin(32)
-print 'boiling point of water:', fahr_to_kelvin(212)
-~~~
-~~~ {.output}
-freezing point of water: 273.15
-boiling point of water: 273.15
-~~~
-
-We've successfully called the function that we defined,
-and we have access to the value that we returned.
-Unfortunately, the value returned doesn't look right.
-What went wrong?
-
-## Debugging a Function
-
-*Debugging* is when we fix a piece of code
-that we know is working incorrectly.
-In this case, we know that `fahr_to_kelvin`
-is giving us the wrong answer,
-so let's find out why.
-
-For big pieces of code,
-there are tools called *debuggers* that aid in this process.
-Since we just have a short function,
-we'll debug by choosing some parameter value,
-breaking our function into small parts,
-and printing out the value of each part.
-
-~~~ {.python}
-# We'll use temp = 212, the boiling point of water, which was incorrect
-print "212 - 32:", 212 - 32
-~~~
-~~~ {.output}
-212 - 32: 180
-~~~
-
-~~~ {.python}
-print "(212 - 32) * (5/9):", (212 - 32) * (5/9)
-~~~
-~~~ {.output}
-(212 - 32) * (5/9): 0
-~~~
-
-Aha! The problem comes when we multiply by `5/9`.
-This is because `5/9` is actually 0.
-
-~~~ {.python}
-5/9
-~~~
-~~~ {.output}
-0
-~~~
-
-Computers store numbers in one of two ways:
-as [integers](reference.html#integer)
-or as [floating-point numbers](reference.html#floating-point-number) (or floats).
-The first are the numbers we usually count with;
-the second have fractional parts.
-Addition, subtraction and multiplication work on both as we'd expect,
-but division works differently.
-If we divide one integer by another,
-we get the quotient without the remainder:
-
-~~~ {.python}
-print '10/3 is:', 10/3
-~~~
-~~~ {.output}
-10/3 is: 3
-~~~
-
-If either part of the division is a float,
-on the other hand,
-the computer creates a floating-point answer:
-
-~~~ {.python}
-print '10.0/3 is:', 10.0/3
-~~~
-~~~ {.output}
-10.0/3 is: 3.33333333333
-~~~
-
-The computer does this for historical reasons:
-integer operations were much faster on early machines,
-and this behavior is actually useful in a lot of situations.
-It's still confusing,
-though,
-so Python 3 produces a floating-point answer when dividing integers if it needs to.
-We're still using Python 2.7 in this class,
-though,
-so if we want `5/9` to give us the right answer,
-we have to write it as `5.0/9`, `5/9.0`, or some other variation.
-
-Another way to create a floating-point answer
-is to explicitly tell the computer that you desire one.
-This is achieved by [casting](reference.html#typecast) one of the numbers:
-
-~~~ {.python}
-print 'float(10)/3 is:', float(10)/3
-~~~
-~~~ {.output}
-float(10)/3 is: 3.33333333333
-~~~
-
-The advantage to this method is it can be used with existing variables.
-Let's take a look:
-
-~~~ {.python}
-a = 10
-b = 3
-print 'a/b is:', a/b
-print 'float(a)/b is:', float(a)/b
-~~~
-~~~ {.output}
-a/b is: 3
-float(a)/b is: 3.33333333333
-~~~
-
-Let's fix our `fahr_to_kelvin` function with this new knowledge:
-
-~~~ {.python}
-def fahr_to_kelvin(temp):
-    return ((temp - 32) * (5.0/9.0)) + 273.15
-
-print 'freezing point of water:', fahr_to_kelvin(32)
-print 'boiling point of water:', fahr_to_kelvin(212)
+print('freezing point of water:', fahr_to_kelvin(32))
+print('boiling point of water:', fahr_to_kelvin(212))
 ~~~
 ~~~ {.output}
 freezing point of water: 273.15
 boiling point of water: 373.15
 ~~~
+
+We've successfully called the function that we defined,
+and we have access to the value that we returned.
+
+> ## Integer division {.callout}
+>
+> We are using Python 3, where division always returns a floating point number:
+>
+> ~~~ {.python}
+> $ python3 -c "print(5/9)"
+> ~~~
+> ~~~ {.output}
+> 0.5555555555555556
+> ~~~
+>
+> Unfortunately, this wasn't the case in Python 2:
+>
+> ~~~ {.python}
+> 5/9
+> ~~~
+> ~~~ {.output}
+> 0
+> ~~~
+>
+> If you are using Python 2 and want to keep the fractional part of division
+> you need to convert one or the other number to floating point:
+>
+> ~~~ {.python}
+> float(5)/9
+> ~~~
+> ~~~ {.output}
+> 0.555555555556
+> ~~~
+> ~~~ {.python}
+> 5/float(9)
+> ~~~
+> ~~~ {.output}
+> 0.555555555556
+> ~~~
+> ~~~ {.python}
+> 5.0/9
+> ~~~
+> ~~~ {.output}
+> 0.555555555556
+> ~~~
+> ~~~ {.python}
+> 5/9.0
+> ~~~
+> ~~~ {.output}
+> 0.555555555556
+> ~~~
+>
+> And if you want an integer result from division in Python 3,
+> use a double-slash:
+>
+> ~~~ {.python}
+> 4//2
+> ~~~
+> ~~~ {.output}
+> 2
+> ~~~
+> ~~~ {.python}
+> 3//2
+> ~~~
+> ~~~ {.output}
+> 1
+> ~~~
 
 ## Composing Functions
 
@@ -189,10 +132,10 @@ Now that we've seen how to turn Fahrenheit into Kelvin,
 it's easy to turn Kelvin into Celsius:
 
 ~~~ {.python}
-def kelvin_to_celsius(temp):
-    return temp - 273.15
+def kelvin_to_celsius(temp_k):
+    return temp_k - 273.15
 
-print 'absolute zero in Celsius:', kelvin_to_celsius(0.0)
+print('absolute zero in Celsius:', kelvin_to_celsius(0.0))
 ~~~
 ~~~ {.output}
 absolute zero in Celsius: -273.15
@@ -202,15 +145,15 @@ What about converting Fahrenheit to Celsius?
 We could write out the formula,
 but we don't need to.
 Instead,
-we can [compose](reference.html#function-composition) the two functions we have already created:
+we can [compose](reference.html#compose) the two functions we have already created:
 
 ~~~ {.python}
-def fahr_to_celsius(temp):
-    temp_k = fahr_to_kelvin(temp)
+def fahr_to_celsius(temp_f):
+    temp_k = fahr_to_kelvin(temp_f)
     result = kelvin_to_celsius(temp_k)
     return result
 
-print 'freezing point of water in Celsius:', fahr_to_celsius(32.0)
+print('freezing point of water in Celsius:', fahr_to_celsius(32.0))
 ~~~
 ~~~ {.output}
 freezing point of water in Celsius: 0.0
@@ -226,15 +169,15 @@ or the next person who reads it won't be able to understand what's going on.
 ## Tidying up
 
 Now that we know how to wrap bits of code up in functions,
-we can make our inflammation analyasis easier to read and easier to reuse.
+we can make our inflammation analysis easier to read and easier to reuse.
 First, let's make an `analyze` function that generates our plots:
 
 ~~~ {.python}
 def analyze(filename):
 
-    data = np.loadtxt(fname=filename, delimiter=',')
+    data = numpy.loadtxt(fname=filename, delimiter=',')
 
-    fig = plt.figure(figsize=(10.0, 3.0))
+    fig = matplotlib.pyplot.figure(figsize=(10.0, 3.0))
 
     axes1 = fig.add_subplot(1, 3, 1)
     axes2 = fig.add_subplot(1, 3, 2)
@@ -250,7 +193,7 @@ def analyze(filename):
     axes3.plot(data.min(axis=0))
 
     fig.tight_layout()
-    plt.show(fig)
+    matplotlib.pyplot.show()
 ~~~
 
 and another function called `detect_problems` that checks for those systematics
@@ -259,14 +202,14 @@ we noticed:
 ~~~ {.python}
 def detect_problems(filename):
 
-    data = np.loadtxt(fname=filename, delimiter=',')
+    data = numpy.loadtxt(fname=filename, delimiter=',')
 
     if data.max(axis=0)[0] == 0 and data.max(axis=0)[20] == 20:
-        print 'Suspicious looking maxima!'
+        print('Suspicious looking maxima!')
     elif data.min(axis=0).sum() == 0:
-        print 'Minima add up to zero!'
+        print('Minima add up to zero!')
     else:
-        print 'Seems OK!'
+        print('Seems OK!')
 ~~~
 
 Notice that rather than jumbling this code together in one giant `for` loop,
@@ -275,9 +218,9 @@ We can reproduce the previous analysis with a much simpler `for` loop:
 
 ~~~ {.python}
 for f in filenames[:3]:
-    print f
+    print(f)
     analyze(f)
-    detectProblems(f)
+    detect_problems(f)
 ~~~
 
 By giving our functions human-readable names,
@@ -306,7 +249,7 @@ and then center that around 3:
 
 ~~~ {.python}
 z = numpy.zeros((2,2))
-print center(z, 3)
+print(center(z, 3))
 ~~~
 ~~~ {.output}
 [[ 3.  3.]
@@ -318,7 +261,7 @@ so let's try `center` on our real data:
 
 ~~~ {.python}
 data = numpy.loadtxt(fname='inflammation-01.csv', delimiter=',')
-print center(data, 0)
+print(center(data, 0))
 ~~~
 ~~~ {.output}
 [[-6.14875 -6.14875 -5.14875 ..., -3.14875 -6.14875 -6.14875]
@@ -334,23 +277,23 @@ It's hard to tell from the default output whether the result is correct,
 but there are a few simple tests that will reassure us:
 
 ~~~ {.python}
-print 'original min, mean, and max are:', data.min(), data.mean(), data.max()
+print('original min, mean, and max are:', data.min(), data.mean(), data.max())
 centered = center(data, 0)
-print 'min, mean, and and max of centered data are:', centered.min(), centered.mean(), centered.max()
+print('min, mean, and and max of centered data are:', centered.min(), centered.mean(), centered.max())
 ~~~
 ~~~ {.output}
 original min, mean, and max are: 0.0 6.14875 20.0
-min, mean, and and max of centered data are: -6.14875 -3.49054118942e-15 13.85125
+min, mean, and and max of centered data are: -6.14875 2.84217094304e-16 13.85125
 ~~~
 
 That seems almost right:
 the original mean was about 6.1,
-so the lower bound from zero is how about -6.1.
+so the lower bound from zero is now about -6.1.
 The mean of the centered data isn't quite zero --- we'll explore why not in the challenges --- but it's pretty close.
 We can even go further and check that the standard deviation hasn't changed:
 
 ~~~ {.python}
-print 'std dev before and after:', data.std(), centered.std()
+print('std dev before and after:', data.std(), centered.std())
 ~~~
 ~~~ {.output}
 std dev before and after: 4.61383319712 4.61383319712
@@ -361,7 +304,7 @@ but we probably wouldn't notice if they were different in the sixth decimal plac
 Let's do this instead:
 
 ~~~ {.python}
-print 'difference in standard deviations before and after:', data.std() - centered.std()
+print('difference in standard deviations before and after:', data.std() - centered.std())
 ~~~
 ~~~ {.output}
 difference in standard deviations before and after: -3.5527136788e-15
@@ -403,7 +346,6 @@ Help on function center in module __main__:
 
 center(data, desired)
     Return a new array containing the original data centered around the desired value.
-
 ~~~
 
 A string like this is called a [docstring](reference.html#docstring).
@@ -425,7 +367,6 @@ Help on function center in module __main__:
 center(data, desired)
     Return a new array containing the original data centered around the desired value.
     Example: center([1, 2, 3], 0) => [-1, 0, 1]
-
 ~~~
 
 ## Defining Defaults
@@ -487,7 +428,7 @@ it works as it did before:
 
 ~~~ {.python}
 test_data = numpy.zeros((2, 2))
-print center(test_data, 3)
+print(center(test_data, 3))
 ~~~
 ~~~ {.output}
 [[ 3.  3.]
@@ -499,10 +440,10 @@ in which case `desired` is automatically assigned the [default value](reference.
 
 ~~~ {.python}
 more_data = 5 + numpy.zeros((2, 2))
-print 'data before centering:'
-print more_data
-print 'centered data:'
-print center(more_data)
+print('data before centering:')
+print(more_data)
+print('centered data:')
+print(center(more_data))
 ~~~
 ~~~ {.output}
 data before centering:
@@ -522,13 +463,13 @@ The example below shows how Python matches values to parameters:
 
 ~~~ {.python}
 def display(a=1, b=2, c=3):
-    print 'a:', a, 'b:', b, 'c:', c
+    print('a:', a, 'b:', b, 'c:', c)
 
-print 'no parameters:'
+print('no parameters:')
 display()
-print 'one parameter:'
+print('one parameter:')
 display(55)
-print 'two parameters:'
+print('two parameters:')
 display(55, 66)
 ~~~
 ~~~ {.output}
@@ -546,7 +487,7 @@ and any that haven't been given a value explicitly get their default value.
 We can override this behavior by naming the value as we pass it in:
 
 ~~~ {.python}
-print 'only setting the value of c'
+print('only setting the value of c')
 display(c=77)
 ~~~
 ~~~ {.output}
@@ -563,7 +504,7 @@ help(numpy.loadtxt)
 ~~~ {.output}
 Help on function loadtxt in module numpy.lib.npyio:
 
-loadtxt(fname, dtype=<type 'float'>, comments='#', delimiter=None, converters=None, skiprows=0, usecols=None, unpack=False, ndmin=0)
+loadtxt(fname, dtype=<class 'float'>, comments='#', delimiter=None, converters=None, skiprows=0, usecols=None, unpack=False, ndmin=0)
     Load data from a text file.
 
     Each row in the text file must have the same number of values.
@@ -645,13 +586,12 @@ loadtxt(fname, dtype=<type 'float'>, comments='#', delimiter=None, converters=No
     array([ 1.,  3.])
     >>> y
     array([ 2.,  4.])
-
 ~~~
 
 There's a lot of information here,
 but the most important part is the first couple of lines:
 
-~~~python
+~~~ {.output}
 loadtxt(fname, dtype=<type 'float'>, comments='#', delimiter=None, converters=None, skiprows=0, usecols=None,
         unpack=False, ndmin=0)
 ~~~
@@ -660,7 +600,7 @@ This tells us that `loadtxt` has one parameter called `fname` that doesn't have 
 and eight others that do.
 If we call the function like this:
 
-~~~python
+~~~ {.python}
 numpy.loadtxt('inflammation-01.csv', ',')
 ~~~
 
@@ -682,7 +622,9 @@ the second parameter in the list.
 > A call to your function should look like this:
 >
 > ~~~ {.python}
-> print fence('name', '*')
+> print(fence('name', '*'))
+> ~~~
+> ~~~ {.output}
 > *name*
 > ~~~
 
@@ -696,7 +638,9 @@ the second parameter in the list.
 > A call to your function should look like this:
 >
 > ~~~ {.python}
-> print outer('helium')
+> print(outer('helium'))
+> ~~~
+> ~~~ {.output}
 > hm
 > ~~~
 
@@ -738,14 +682,5 @@ the second parameter in the list.
 > f2k(41)
 > f2k(32)
 >
-> print k
+> print(k)
 > ~~~
-
-> ## Automatic plots {.challenge}
->
-> Write a function called `analyze` that takes a filename as a parameter
-> and displays the three graphs produced in the previous lessons,
-> i.e.,
-> `analyze('inflammation-01.csv')` should produce the graphs already shown,
-> while `analyze('inflammation-02.csv')` should produce corresponding graphs for the second data set.
-> Be sure to give your function a docstring.

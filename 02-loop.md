@@ -17,8 +17,8 @@ and reveals some suspicious features in it, such as from `inflammation-01.csv`
 
 ![Analysis of inflammation-01.csv](fig/03-loop_2_0.png)\
 
-but we have a dozen data sets right now and more on the way.
-We want to create plots for all our data sets with a single statement.
+We have a dozen data sets right now, though, and more on the way.
+We want to create plots for all of our data sets with a single statement.
 To do that, we'll have to teach the computer how to repeat things.
 
 An example task that we might want to repeat is printing each character in a
@@ -26,10 +26,10 @@ word on a line of its own. One way to do this would be to use a series of `print
 
 ~~~ {.python}
 word = 'lead'
-print word[0]
-print word[1]
-print word[2]
-print word[3]
+print(word[0])
+print(word[1])
+print(word[2])
+print(word[3])
 
 ~~~
 ~~~ {.output}
@@ -39,7 +39,7 @@ a
 d
 ~~~
 
-but that's a bad approach for two reasons:
+This is a bad approach for two reasons:
 
 1.  It doesn't scale:
     if we want to print the characters in a string that's hundreds of letters long,
@@ -53,10 +53,10 @@ but that's a bad approach for two reasons:
 
 ~~~ {.python}
 word = 'tin'
-print word[0]
-print word[1]
-print word[2]
-print word[3]
+print(word[0])
+print(word[1])
+print(word[2])
+print(word[3])
 
 ~~~
 ~~~ {.output}
@@ -68,9 +68,9 @@ n
 ---------------------------------------------------------------------------
 IndexError                                Traceback (most recent call last)
 <ipython-input-3-7974b6cdaf14> in <module>()
-      3 print word[1]
-      4 print word[2]
-----> 5 print word[3]
+      3 print(word[1])
+      4 print(word[2])
+----> 5 print(word[3])
 
 IndexError: string index out of range
 ~~~
@@ -81,7 +81,7 @@ Here's a better approach:
 ~~~ {.python}
 word = 'lead'
 for char in word:
-    print char
+    print(char)
 
 ~~~
 
@@ -98,7 +98,7 @@ more robust as well:
 ~~~ {.python}
 word = 'oxygen'
 for char in word:
-    print char
+    print(char)
 ~~~
 
 ~~~ {.output}
@@ -110,7 +110,7 @@ e
 n
 ~~~
 
-The improved version of `print_characters` uses a [for loop](reference.html#for-loop)
+The improved version uses a [for loop](reference.html#for-loop)
 to repeat an operation---in this case, printing---once for each thing in a collection.
 The general form of a loop is:
 
@@ -122,7 +122,7 @@ for variable in collection:
 We can call the [loop variable](reference.html#loop-variable) anything we like,
 but there must be a colon at the end of the line starting the loop,
 and we must indent anything we want to run inside the loop. Unlike many other languages, there is no
-command to end a loop (e.g. end for); what is indented after the for statement belongs to the loop.
+command to signify the end of the loop body (e.g. end for); what is indented after the for statement belongs to the loop.
 
 Here's another loop that repeatedly updates a variable:
 
@@ -130,7 +130,7 @@ Here's another loop that repeatedly updates a variable:
 length = 0
 for vowel in 'aeiou':
     length = length + 1
-print 'There are', length, 'vowels'
+print('There are', length, 'vowels')
 ~~~
 
 ~~~ {.output}
@@ -162,8 +162,8 @@ and we can re-use variables previously defined as loop variables as well:
 ~~~ {.python}
 letter = 'z'
 for letter in 'abc':
-    print letter
-print 'after the loop, letter is', letter
+    print(letter)
+print('after the loop, letter is', letter)
 ~~~
 
 ~~~ {.output}
@@ -177,7 +177,7 @@ Note also that finding the length of a string is such a common operation
 that Python actually has a built-in function to do it called `len`:
 
 ~~~ {.python}
-print len('aeiou')
+print(len('aeiou'))
 ~~~
 
 ~~~ {.output}
@@ -192,13 +192,14 @@ so we should always use it when we can.
 
 > ## From 1 to N {.challenge}
 >
-> Python has a built-in function called `range` that creates a list of numbers. Range can
+> Python has a built-in function called `range` that creates a sequence of numbers. Range can
 > accept 1-3 parameters. If one parameter is input, range creates an array of that length,
 > starting at zero and incrementing by 1. If 2 parameters are input, range starts at
-> the first and ends at the second, incrementing by one. If range is passed 3 parameters,
-> it stars at the first one, ends at the second one, and increments by the third one. For
-> example:
-> `range(3)` produces `[0, 1, 2]`, `range(2, 5)` produces `[2, 3, 4]`.
+> the first and ends just before the second, incrementing by one. If range is passed 3 parameters,
+> it starts at the first one, ends just before the second one, and increments by the third one. For
+> example,
+> `range(3)` produces the numbers 0, 1, 2, while `range(2, 5)` produces 2, 3, 4,
+> and `range(3, 10, 3)` produces 3, 6, 9.
 > Using `range`,
 > write a loop that uses `range` to print the first 3 natural numbers:
 >
@@ -213,12 +214,14 @@ so we should always use it when we can.
 > Exponentiation is built into Python:
 >
 > ~~~ {.python}
-> print 5**3
+> print(5 ** 3)
+> ~~~
+> ~~~ {.output}
 > 125
 > ~~~
 >
-> It also has a function called `pow` that calculates the same value.
-> Write a loop to calculate the same result.
+> Write a loop that calculates the same result as `5 ** 3` using
+> multiplication (and without exponentiation).
 
 > ## Reverse a string {.challenge}
 >

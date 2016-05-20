@@ -21,14 +21,14 @@ that finds files whose names match a pattern.
 We provide those patterns as strings:
 the character `*` matches zero or more characters,
 while `?` matches any one character.
-We can use this to get the names of all the html files:
+We can use this to get the names of all the CSV files in the current directory:
 
 ~~~ {.python}
-print glob.glob('*.html')
+print(glob.glob('data/inflammation*.csv'))
 ~~~
 
 ~~~ {.output}
-['01-numpy.html', '02-loop.html', '03-lists.html', '04-files.html', '05-cond.html', '06-func.html', '07-errors.html', '08-defensive.html', '09-debugging.html', '10-cmdline.html', 'index.html', 'LICENSE.html', 'instructors.html', 'README.html', 'discussion.html', 'motivation.html', 'reference.html']
+['data/inflammation-01.csv', 'data/inflammation-02.csv', 'data/inflammation-03.csv', 'data/inflammation-04.csv', 'data/inflammation-05.csv', 'data/inflammation-06.csv', 'data/inflammation-07.csv', 'data/inflammation-08.csv', 'data/inflammation-09.csv', 'data/inflammation-10.csv', 'data/inflammation-11.csv', 'data/inflammation-12.csv']
 ~~~
 
 As these examples show,
@@ -40,14 +40,17 @@ the "something" we want to do is generate a set of plots for each file in our in
 Let's test it by analyzing the first three files in the list:
 
 ~~~ {.python}
-filenames = glob.glob('*.csv')
+import numpy
+import matplotlib.pyplot
+
+filenames = glob.glob('data/inflammation*.csv')
 filenames = filenames[0:3]
 for f in filenames:
-    print f
+    print(f)
 
-    data = np.loadtxt(fname=f, delimiter=',')
+    data = numpy.loadtxt(fname=f, delimiter=',')
 
-    fig = plt.figure(figsize=(10.0, 3.0))
+    fig = matplotlib.pyplot.figure(figsize=(10.0, 3.0))
 
     axes1 = fig.add_subplot(1, 3, 1)
     axes2 = fig.add_subplot(1, 3, 2)
@@ -63,7 +66,7 @@ for f in filenames:
     axes3.plot(data.min(axis=0))
 
     fig.tight_layout()
-    plt.show(fig)
+    matplotlib.pyplot.show()
 ~~~
 
 ~~~ {.output}

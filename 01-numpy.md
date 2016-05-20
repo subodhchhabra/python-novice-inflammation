@@ -31,7 +31,7 @@ import numpy
 ~~~
 
 Importing a library is like getting a piece of lab equipment out of a storage locker
-and setting it up on the bench.
+and setting it up on the bench. Libraries provide additional functionality to the basic Python package, much like a new piece of equipment adds functionality to a lab space.
 Once you've loaded the library,
 we can ask the library to read our data file for us:
 
@@ -93,7 +93,7 @@ weight_kg = 55
 Once a variable has a value, we can print it to the screen:
 
 ~~~ {.python}
-print weight_kg
+print(weight_kg)
 ~~~
 ~~~ {.output}
 55
@@ -102,7 +102,7 @@ print weight_kg
 and do arithmetic with it:
 
 ~~~ {.python}
-print 'weight in pounds:', 2.2 * weight_kg
+print('weight in pounds:', 2.2 * weight_kg)
 ~~~
 ~~~ {.output}
 weight in pounds: 121.0
@@ -112,7 +112,7 @@ We can also change a variable's value by assigning it a new one:
 
 ~~~ {.python}
 weight_kg = 57.5
-print 'weight in kilograms is now:', weight_kg
+print('weight in kilograms is now:', weight_kg)
 ~~~
 ~~~ {.output}
 weight in kilograms is now: 57.5
@@ -132,7 +132,7 @@ let's store the subject's weight in pounds in a variable:
 
 ~~~ {.python}
 weight_lb = 2.2 * weight_kg
-print 'weight in kilograms:', weight_kg, 'and in pounds:', weight_lb
+print('weight in kilograms:', weight_kg, 'and in pounds:', weight_lb)
 ~~~
 ~~~ {.output}
 weight in kilograms: 57.5 and in pounds: 126.5
@@ -144,7 +144,7 @@ and then change `weight_kg`:
 
 ~~~ {.python}
 weight_kg = 100.0
-print 'weight in kilograms is now:', weight_kg, 'and weight in pounds is still:', weight_lb
+print('weight in kilograms is now:', weight_kg, 'and weight in pounds is still:', weight_lb)
 ~~~
 ~~~ {.output}
 weight in kilograms is now: 100.0 and weight in pounds is still: 126.5
@@ -155,6 +155,21 @@ weight in kilograms is now: 100.0 and weight in pounds is still: 126.5
 Since `weight_lb` doesn't "remember" where its value came from,
 it isn't automatically updated when `weight_kg` changes.
 This is different from the way spreadsheets work.
+
+> ## Who's who in the memory {.callout}
+>
+>You can use the `whos` command at any time to see what variables you have created and what modules you have loaded into the computers memory. As this is an IPython command, it will only work if you are in an IPython terminal or the Jupyter Notebook. 
+>
+>~~~ {.python}
+>whos
+>~~~
+>~~~ {.output}
+>Variable    Type       Data/Info
+>--------------------------------
+>numpy       module     <module 'numpy' from '/Us<...>kages/numpy/__init__.py'>
+>weight_kg   float      100.0
+>weight_lb   float      126.5
+>~~~
 
 Just as we can assign a single value to a variable, we can also assign an array of values
 to a variable using the same syntax.  Let's re-run `numpy.loadtxt` and save its result:
@@ -168,7 +183,7 @@ If we want to check that our data has been loaded,
 we can print the variable's value:
 
 ~~~ {.python}
-print data
+print(data)
 ~~~
 ~~~ {.output}
 [[ 0.  0.  1. ...,  3.  0.  0.]
@@ -186,17 +201,17 @@ First,
 let's ask what [type](reference.html#type) of thing `data` refers to:
 
 ~~~ {.python}
-print type(data)
+print(type(data))
 ~~~
 ~~~ {.output}
-<type 'numpy.ndarray'>
+<class 'numpy.ndarray'>
 ~~~
 
-The output tells us that `data` currently refers to an N-dimensional array created by the NumPy library.
+The output tells us that `data` currently refers to an N-dimensional array created by the NumPy library. These data correspond to arthritis patients' inflammation. The rows are the individual patients and the columns are their daily inflammation measurements.
 We can see what its [shape](reference.html#shape) is like this:
 
 ~~~ {.python}
-print data.shape
+print(data.shape)
 ~~~
 ~~~ {.output}
 (60, 40)
@@ -217,14 +232,14 @@ we must provide an [index](reference.html#index) in square brackets,
 just as we do in math:
 
 ~~~ {.python}
-print 'first value in data:', data[0, 0]
+print('first value in data:', data[0, 0])
 ~~~
 ~~~ {.output}
 first value in data: 0.0
 ~~~
 
 ~~~ {.python}
-print 'middle value in data:', data[30, 20]
+print('middle value in data:', data[30, 20])
 ~~~
 ~~~ {.output}
 middle value in data: 13.0
@@ -258,10 +273,10 @@ An index like `[30, 20]` selects a single element of an array,
 but we can select whole sections as well.
 For example,
 we can select the first ten days (columns) of values
-for the first four (rows) patients like this:
+for the first four patients (rows) like this:
 
 ~~~ {.python}
-print data[0:4, 0:10]
+print(data[0:4, 0:10])
 ~~~
 ~~~ {.output}
 [[ 0.  0.  1.  3.  1.  2.  4.  7.  8.  3.]
@@ -279,7 +294,7 @@ but the rule is that the difference between the upper and lower bounds is the nu
 We don't have to start slices at 0:
 
 ~~~ {.python}
-print data[5:10, 0:10]
+print(data[5:10, 0:10])
 ~~~
 ~~~ {.output}
 [[ 0.  0.  1.  2.  2.  4.  2.  1.  6.  4.]
@@ -300,8 +315,8 @@ the slice includes everything:
 
 ~~~ {.python}
 small = data[:3, 36:]
-print 'small is:'
-print small
+print('small is:')
+print(small)
 ~~~
 ~~~ {.output}
 small is:
@@ -325,10 +340,10 @@ will create a new array `doubledata`
 whose elements have the value of two times the value of the corresponding elements in `data`:
 
 ~~~ {.python}
-print 'original:'
-print data[:3, 36:]
-print 'doubledata:'
-print doubledata[:3, 36:]
+print('original:')
+print(data[:3, 36:])
+print('doubledata:')
+print(doubledata[:3, 36:])
 ~~~
 ~~~ {.output}
 original:
@@ -355,8 +370,8 @@ will give you an array where `tripledata[0,0]` will equal `doubledata[0,0]` plus
 and so on for all other elements of the arrays.
 
 ~~~ {.python}
-print 'tripledata:'
-print tripledata[:3, 36:]
+print('tripledata:')
+print(tripledata[:3, 36:])
 ~~~
 ~~~ {.output}
 tripledata:
@@ -372,7 +387,7 @@ for example,
 we can just ask the array for its mean value
 
 ~~~ {.python}
-print data.mean()
+print(data.mean())
 ~~~
 ~~~ {.output}
 6.14875
@@ -393,9 +408,9 @@ because it is an action.
 NumPy arrays have lots of useful methods:
 
 ~~~ {.python}
-print 'maximum inflammation:', data.max()
-print 'minimum inflammation:', data.min()
-print 'standard deviation:', data.std()
+print('maximum inflammation:', data.max())
+print('minimum inflammation:', data.min())
+print('standard deviation:', data.std())
 ~~~
 ~~~ {.output}
 maximum inflammation: 20.0
@@ -413,7 +428,7 @@ then ask it to do the calculation:
 
 ~~~ {.python}
 patient_0 = data[0, :] # 0 on the first axis, everything on the second
-print 'maximum inflammation for patient 0:', patient_0.max()
+print('maximum inflammation for patient 0:', patient_0.max())
 ~~~
 ~~~ {.output}
 maximum inflammation for patient 0: 18.0
@@ -423,7 +438,7 @@ We don't actually need to store the row in a variable of its own.
 Instead, we can combine the selection and the method call:
 
 ~~~ {.python}
-print 'maximum inflammation for patient 2:', data[2, :].max()
+print('maximum inflammation for patient 2:', data[2, :].max())
 ~~~
 ~~~ {.output}
 maximum inflammation for patient 2: 19.0
@@ -442,7 +457,7 @@ If we ask for the average across axis 0 (rows in our 2D example),
 we get:
 
 ~~~ {.python}
-print data.mean(axis=0)
+print(data.mean(axis=0))
 ~~~
 ~~~ {.output}
 [  0.           0.45         1.11666667   1.75         2.43333333   3.15
@@ -459,7 +474,7 @@ As a quick check,
 we can ask this array what its shape is:
 
 ~~~ {.python}
-print data.mean(axis=0).shape
+print(data.mean(axis=0).shape)
 ~~~
 ~~~ {.output}
 (40,)
@@ -470,7 +485,7 @@ so this is the average inflammation per day for all patients.
 If we average across axis 1 (columns in our 2D example), we get:
 
 ~~~ {.python}
-print data.mean(axis=1)
+print(data.mean(axis=1))
 ~~~
 ~~~ {.output}
 [ 5.45   5.425  6.1    5.9    5.55   6.225  5.975  6.65   6.625  6.525
@@ -497,7 +512,7 @@ and use two of its functions to create and display a heat map of our data:
 ~~~ {.python}
 import matplotlib.pyplot
 image  = matplotlib.pyplot.imshow(data)
-matplotlib.pyplot.show(image)
+matplotlib.pyplot.show()
 ~~~
 
 ![Heatmap of the Data](fig/01-numpy_71_0.png)
@@ -505,19 +520,35 @@ matplotlib.pyplot.show(image)
 Blue regions in this heat map are low values, while red shows high values.
 As we can see,
 inflammation rises and falls over a 40-day period.
+
+> ## Some IPython magic {.callout}
+>
+> If you're using an IPython / Jupyter notebook,
+> you'll need to execute the following command
+> in order for your matplotlib images to appear
+> in the notebook when `show()` is called:
+>
+> ~~~ {.python}
+> % matplotlib inline
+> ~~~
+>
+> The `%` indicates an IPython magic function -
+> a function that is only valid within the notebook environment.
+> Note that you only have to execute this function once per notebook.
+
 Let's take a look at the average inflammation over time:
 
 ~~~ {.python}
 ave_inflammation = data.mean(axis=0)
-ave_plot = pyplot.plot(ave_inflammation)
-pyplot.show(ave_plot)
+ave_plot = matplotlib.pyplot.plot(ave_inflammation)
+matplotlib.pyplot.show()
 ~~~
 
 ![Average Inflammation Over Time](fig/01-numpy_73_0.png)
 
 Here,
 we have put the average per day across all patients in the variable `ave_inflammation`,
-then asked `pyplot` to create and display a line graph of those values.
+then asked `matplotlib.pyplot` to create and display a line graph of those values.
 The result is roughly a linear rise and fall,
 which is suspicious:
 based on other studies,
@@ -525,15 +556,15 @@ we expect a sharper rise and slower fall.
 Let's have a look at two other statistics:
 
 ~~~ {.python}
-max_plot = pyplot.plot(data.max(axis=0))
-pyplot.show(max_plot)
+max_plot = matplotlib.pyplot.plot(data.max(axis=0))
+matplotlib.pyplot.show()
 ~~~
 
 ![Maximum Value Along The First Axis](fig/01-numpy_75_1.png)
 
 ~~~ {.python}
-min_plot = pyplot.plot(data.min(axis=0))
-pyplot.show(min_plot)
+min_plot = matplotlib.pyplot.plot(data.min(axis=0))
+matplotlib.pyplot.show()
 ~~~
 
 ![Minimum Value Along The First Axis](fig/01-numpy_75_3.png)
@@ -548,12 +579,12 @@ You can group similar plots in a single figure using subplots.
 This script below uses a number of new commands. The function `matplotlib.pyplot.figure()`
 creates a space into which we will place all of our plots. The parameter `figsize`
 tells Python how big to make this space. Each subplot is placed into the figure using
-the `subplot` command. The `subplot` command takes 3 parameters. The first denotes
+its `add_subplot` method. The `add_subplot` method takes 3 parameters. The first denotes
 how many total rows of subplots there are, the second parameter refers to the
 total number of subplot columns, and the final parameters denotes which subplot
-your variable is referencing. Each subplot is stored in a different variable (axes1, axes2,
-axes3). Once a subplot is created, the axes are can be titled using the
-`set_xlabel()` command (or `set_ylabel()`).
+your variable is referencing (left-to-right, top-to-bottom). Each subplot is stored in a
+different variable (`axes1`, `axes2`, `axes3`). Once a subplot is created, the axes can
+be titled using the `set_xlabel()` command (or `set_ylabel()`).
 Here are our three plots side by side:
 
 ~~~ {.python}
@@ -579,7 +610,7 @@ axes3.plot(data.min(axis=0))
 
 fig.tight_layout()
 
-matplotlib.pyplot.show(fig)
+matplotlib.pyplot.show()
 ~~~
 
 ![The Previous Plots as Subplots](fig/01-numpy_80_0.png)
@@ -587,7 +618,7 @@ matplotlib.pyplot.show(fig)
 The [call](reference.html#function-call) to `loadtxt` reads our data,
 and the rest of the program tells the plotting library
 how large we want the figure to be,
-that we're creating three sub-plots,
+that we're creating three subplots,
 what to draw for each one,
 and that we want a tight layout.
 (Perversely,
@@ -621,7 +652,7 @@ the graphs will actually be squeezed together more closely.)
 > ~~~ {.python}
 > first, second = 'Grace', 'Hopper'
 > third, fourth = second, first
-> print third, fourth
+> print(third, fourth)
 > ~~~
 
 > ## Slicing strings {.challenge}
@@ -631,8 +662,8 @@ the graphs will actually be squeezed together more closely.)
 >
 > ~~~ {.python}
 > element = 'oxygen'
-> print 'first three characters:', element[0:3]
-> print 'last three characters:', element[3:6]
+> print('first three characters:', element[0:3])
+> print('last three characters:', element[3:6])
 > ~~~
 >
 > ~~~ {.output}

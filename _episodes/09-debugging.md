@@ -65,9 +65,9 @@ scientists tend to do the following:
     our first test should hold temperature, precipitation, and other factors constant.
 
 3.  *Compare to an oracle.*
-    A [test oracle](reference.html#test-oracle) is something whose results are trusted,
+    A [test oracle]({{ page.root }}/reference/#test-oracle) is something whose results are trusted,
     such as experimental data, an older program, or a human expert.
-    We use to test oracles to determine if our new program produces the correct results.
+    We use test oracles to determine if our new program produces the correct results.
     If we have a test oracle,
     we should store its output for particular cases
     so that we can compare it with our new results as often as we like
@@ -88,7 +88,7 @@ scientists tend to do the following:
     Data analysts frequently use simple visualizations to check both
     the science they're doing
     and the correctness of their code
-    (just as we did in the [opening lesson](01-numpy.html) of this tutorial).
+    (just as we did in the [opening lesson]({{ page.root }}/01-numpy/) of this tutorial).
     This should only be used for debugging as a last resort,
     though,
     since it's very hard to compare two visualizations automatically.
@@ -246,7 +246,7 @@ not more.
 >
 > You are assisting a researcher with Python code that computes the
 > Body Mass Index (BMI) of patients.  The researcher is concerned because
-> all patients seemingly have identical BMIs, despite having different
+> all patients seemingly have unusual and identical BMIs, despite having different
 > physiques.  BMI is calculated as **weight in kilograms**
 > divided by the the square of **height in metres**.
 >
@@ -261,16 +261,16 @@ not more.
 >     return weight / (height ** 2)
 >
 > for patient in patients:
->     height, weight = patients[0]
+>     weight, height = patients[0]
 >     bmi = calculate_bmi(height, weight)
 >     print("Patient's BMI is: %f" % bmi)
 > ~~~
 > {: .python}
 >
 > ~~~
-> Patient's BMI is: 21.604938
-> Patient's BMI is: 21.604938
-> Patient's BMI is: 21.604938
+> Patient's BMI is: 0.000367
+> Patient's BMI is: 0.000367
+> Patient's BMI is: 0.000367
 > ~~~
 > {: .output}
 >
@@ -279,6 +279,6 @@ not more.
 > >   set as the first patient's data during each iteration of the loop.
 > >
 > > * The height/weight variables are reversed in the function call to
-> >   `calculate_bmi(...)`
+> >   `calculate_bmi(...)`, the correct BMIs are 21.604938, 22.160665 and 51.903114.
 > {: .solution}
 {: .challenge}

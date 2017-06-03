@@ -13,7 +13,7 @@ keypoints:
 - "An error having to do with the 'grammar' or syntax of the program is called a `SyntaxError`. If the issue has to do with how the code is indented, then it will be called an `IndentationError`."
 - "A `NameError` will occur if you use a variable that has not been defined, either because you meant to use quotes around a string, you forgot to define the variable, or you just made a typo."
 - "Containers like lists and strings will generate errors if you try to access items in them that do not exist. This type of error is called an `IndexError`."
-- "Trying to read a file that does not exist will give you an `IOError`. Trying to read a file that is open for writing, or writing to a file that is open for reading, will also give you an `IOError`."
+- "Trying to read a file that does not exist will give you an `FileNotFoundError`. Trying to read a file that is open for writing, or writing to a file that is open for reading, will give you an `IOError`."
 ---
 
 Every programmer encounters errors,
@@ -28,26 +28,38 @@ Once you know *why* you get certain types of errors,
 they become much easier to fix.
 
 Errors in Python have a very specific form,
-called a [traceback](reference.html#traceback).
+called a [traceback]({{ page.root }}/reference/#traceback).
 Let's examine one:
 
 ~~~
-import errors_01
-errors_01.favorite_ice_cream()
+# This code has an intentional error. You can type it directly or
+# use it for reference to understand the error message below.
+def favorite_ice_cream():
+    ice_creams = [
+        "chocolate",
+        "vanilla",
+        "strawberry"
+    ]
+    print(ice_creams[3])
+
+favorite_ice_cream()
 ~~~
 {: .python}
 
 ~~~
 ---------------------------------------------------------------------------
 IndexError                                Traceback (most recent call last)
-<ipython-input-1-9d0462a5b07c> in <module>()
-      1 import errors_01
-----> 2 errors_01.favorite_ice_cream()
+<ipython-input-1-70bd89baa4df> in <module>()
+      6     print(ice_creams[3])
+      7 
+----> 8 favorite_ice_cream()
 
-/Users/jhamrick/project/swc/novice/python/errors_01.pyc in favorite_ice_cream()
-      5         "strawberry"
-      6     ]
-----> 7     print(ice_creams[3])
+<ipython-input-1-70bd89baa4df> in favorite_ice_cream()
+      4         "vanilla",                                                                    "strawberry"
+      5     ]
+----> 6     print(ice_creams[3])
+      7 
+      8 favorite_ice_cream()
 
 IndexError: list index out of range
 ~~~
@@ -58,16 +70,16 @@ You can determine the number of levels by looking for the number of arrows on th
 In this case:
 
 1.  The first shows code from the cell above,
-    with an arrow pointing to Line 2 (which is `favorite_ice_cream()`).
+    with an arrow pointing to Line 8 (which is `favorite_ice_cream()`).
 
-2.  The second shows some code in another function (`favorite_ice_cream`, located in the file `errors_01.py`),
-    with an arrow pointing to Line 7 (which is `print(ice_creams[3])`).
+2.  The second shows some code in the function `favorite_ice_cream`,
+    with an arrow pointing to Line 6 (which is `print(ice_creams[3])`).
 
 The last level is the actual place where the error occurred.
 The other level(s) show what function the program executed to get to the next level down.
-So, in this case, the program first performed a [function call](reference.html#function-call) to the function `favorite_ice_cream`.
+So, in this case, the program first performed a [function call]({{ page.root }}/reference/#function-call) to the function `favorite_ice_cream`.
 Inside this function,
-the program encountered an error on Line 7, when it tried to run the code `print(ice_creams[3])`.
+the program encountered an error on Line 6, when it tried to run the code `print(ice_creams[3])`.
 
 > ## Long Tracebacks
 >
@@ -107,7 +119,7 @@ hopefully the custom error message is informative enough to help you figure out 
 When you forget a colon at the end of a line,
 accidentally add one space too many when indenting under an `if` statement,
 or forget a parenthesis,
-you will encounter a [syntax error](reference.html#syntax-error).
+you will encounter a [syntax error]({{ page.root }}/reference/#syntax-error).
 This means that Python couldn't figure out how to read your program.
 This is similar to forgetting punctuation in English:
 for example,
@@ -172,7 +184,7 @@ it *always* means that there is a problem with how your code is indented.
 > A quick note on indentation errors:
 > they can sometimes be insidious,
 > especially if you are mixing spaces and tabs.
-> Because they are both [whitespace](reference.html#whitespace),
+> Because they are both [whitespace]({{ page.root }}/reference/#whitespace),
 > it is difficult to visually tell the difference.
 > The Jupyter notebook actually gives us a bit of a hint,
 > but not all Python editors will do that.
@@ -231,7 +243,7 @@ That's harder question to answer,
 because it depends on what your code is supposed to do.
 However,
 there are a few very common reasons why you might have an undefined variable.
-The first is that you meant to use a [string](reference.html#string), but forgot to put quotes around it:
+The first is that you meant to use a [string]({{ page.root }}/reference/#string), but forgot to put quotes around it:
 
 ~~~
 print(hello)
@@ -274,7 +286,7 @@ NameError: name 'count' is not defined
 Finally, the third possibility is that you made a typo when you were writing your code.
 Let's say we fixed the error above by adding the line `Count = 0` before the for loop.
 Frustratingly, this actually does not fix the error.
-Remember that variables are [case-sensitive](reference.html#case-sensitive),
+Remember that variables are [case-sensitive]({{ page.root }}/reference/#case-sensitive),
 so the variable `count` is different from `Count`. We still get the same error, because we still have not defined `count`:
 
 ~~~
@@ -298,7 +310,7 @@ NameError: name 'count' is not defined
 ~~~
 {: .error}
 
-## Item Errors
+## Index Errors
 
 Next up are errors having to do with containers (like lists and strings) and the items within them.
 If you try to access an item in a list or a string that does not exist,
@@ -347,6 +359,10 @@ The last type of error we'll cover today
 are those associated with reading and writing files: `FileNotFoundError`.
 If you try to read a file that does not exist,
 you will receive a `FileNotFoundError` telling you so.
+If you attempt to write to a file that was opened read-only, Python 3
+returns an `UnsupportedOperationError`.
+More generally, problems with input and output manifest as
+`IOError`s or `OSError`s, depending on the version of Python you use.
 
 ~~~
 file_handle = open('myfile.txt', 'r')
@@ -406,39 +422,57 @@ often reveals common reasons why you might get that error.
 
 > ## Reading Error Messages
 >
-> Read the traceback below, and identify the following pieces of information about it:
+> Read the python code and the resulting traceback below, and answer the following questions:
 >
 > 1.  How many levels does the traceback have?
-> 2.  What is the file name where the error occurred?
-> 3.  What is the function name where the error occurred?
-> 4.  On which line number in this function did the error occurr?
-> 5.  What is the type of error?
-> 6.  What is the error message?
+> 2.  What is the function name where the error occurred?
+> 3.  On which line number in this function did the error occurr?
+> 4.  What is the type of error?
+> 5.  What is the error message?
 >
 > ~~~
-> import errors_02
-> errors_02.print_friday_message()
+> # This code has an intentional error. Do not type it directly;
+> # use it for reference to understand the error message below.
+> def print_message(day):
+>     messages = {
+>         "monday": "Hello, world!",
+>         "tuesday": "Today is tuesday!",
+>         "wednesday": "It is the middle of the week.",
+>         "thursday": "Today is Donnerstag in German!",
+>         "friday": "Last day of the week!",
+>         "saturday": "Hooray for the weekend!",
+>         "sunday": "Aw, the weekend is almost over."
+>     }
+>     print(messages[day])
+>
+> def print_friday_message():
+>     print_message("Friday")
+>
+> print_friday_message()
 > ~~~
 > {: .python}
 >
 > ~~~
 > ---------------------------------------------------------------------------
 > KeyError                                  Traceback (most recent call last)
-> <ipython-input-2-e4c4cbafeeb5> in <module>()
->       1 import errors_02
-> ----> 2 errors_02.print_friday_message()
+> <ipython-input-1-4be1945adbe2> in <module>()
+>      14     print_message("Friday")
+>      15
+> ---> 16 print_friday_message()
 >
-> /Users/jhamrick/project/swc/novice/python/errors_02.py in print_friday_message()
->      13
->      14 def print_friday_message():
-> ---> 15     print_message("Friday")
+> <ipython-input-1-4be1945adbe2> in print_friday_message()
+>      12
+>      13 def print_friday_message():
+> ---> 14     print_message("Friday")
+>      15
+>      16 print_friday_message()
 >
-> /Users/jhamrick/project/swc/novice/python/errors_02.py in print_message(day)
+> <ipython-input-1-4be1945adbe2> in print_message(day)
 >       9         "sunday": "Aw, the weekend is almost over."
 >      10     }
 > ---> 11     print(messages[day])
 >      12
->      13
+>      13 def print_friday_message():
 >
 > KeyError: 'Friday'
 > ~~~
@@ -446,11 +480,10 @@ often reveals common reasons why you might get that error.
 >
 > > ## Solution
 > > 1. 3 levels
-> > 2. `errors_02.py`
-> > 3. `print_message`
-> > 4. 11
-> > 5. `KeyError`
-> > 6. There isn't really a message; you're supposed to infer that `Friday` is not a key in `messages`.
+> > 2. `print_message`
+> > 3. 11
+> > 4. `KeyError`
+> > 5. There isn't really a message; you're supposed to infer that `Friday` is not a key in `messages`.
 > {: .solution}
 {: .challenge}
 
@@ -525,7 +558,7 @@ often reveals common reasons why you might get that error.
 > {: .solution}
 {: .challenge}
 
-> ## Identifying Item Errors
+> ## Identifying Index Errors
 >
 > 1. Read the code below, and (without running it) try to identify what the errors are.
 > 2. Run the code, and read the error message. What type of error is it?

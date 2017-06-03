@@ -304,7 +304,7 @@ freeing us from having to manually examine every plot for features we've seen be
 
 > ## In-Place Operators
 >
-> Python (and most other languages in the C family) provides [in-place operators](reference.html#in-place-operators)
+> Python (and most other languages in the C family) provides [in-place operators]({{ page.root }}/reference/#in-place-operators)
 > that work like this:
 >
 > ~~~
@@ -346,39 +346,6 @@ freeing us from having to manually examine every plot for features we've seen be
 > {: .solution}
 {: .challenge}
 
-> ## Tuples and Exchanges
->
-> Explain what the overall effect of this code is:
->
-> ~~~
-> left = 'L'
-> right = 'R'
->
-> temp = left
-> left = right
-> right = temp
-> ~~~
-> {: .python}
->
-> > ## Solution
-> > The code swaps the contents of the variables right and left.
-> {: .solution}
->
-> Compare it to:
->
-> ~~~
-> left, right = right, left
-> ~~~
-> {: .python}
->
-> Do they always do the same thing?
-> Which do you find easier to read?
->
-> > ## Solution
-> > Yes, although it's possible the internal implementation is different.
-> {: .solution}
-{: .challenge}
-
 > ## Sorting a List Into Buckets
 >
 > The folder containing our data files has large data sets whose names start with
@@ -412,15 +379,44 @@ freeing us from having to manually examine every plot for features we've seen be
 > other_files = ['myscript.py']
 > ~~~
 > {: .python}
+>
+> > ## Solution
+> > ~~~
+> > for file in files:
+> >     if 'inflammation-' in file:
+> >         large_files.append(file)
+> >     elif 'small-' in file:
+> >         small_files.append(file)
+> >     else:
+> >         other_files.append(file)
+> >         
+> > print(large_files)
+> > print(small_files)
+> > print(other_files)
+> > ~~~
+> > {: .python}
+> {: .solution}
 {: .challenge}
 
 > ## Counting Vowels
 >
 > 1.  Write a loop that counts the number of vowels in a character string.
->
 > 2. Test it on a few individual words and full sentences.
->
 > 3. Once you are done, compare your solution to your neighbor's.
 >    Did you make the same decisions about how to handle the letter 'y'
 >    (which some people think is a vowel, and some do not)?
+>
+> > ## Solution
+> > ~~~
+> > vowels = 'aeiouAEIOU'
+> > sentence = 'Mary had a little lamb.'
+> > count = 0
+> > for char in sentence:
+> >     if char in vowels:
+> >         count += 1
+> >         
+> > print("The number of vowels in this string is " + str(count))
+> > ~~~
+> > {: .python}
+> {: .solution}
 {: .challenge}

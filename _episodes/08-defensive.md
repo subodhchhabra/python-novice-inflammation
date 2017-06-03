@@ -48,8 +48,8 @@ is much greater than the time that measuring takes.
 The first step toward getting the right answers from our programs
 is to assume that mistakes *will* happen
 and to guard against them.
-This is called [defensive programming](reference.html#defensive-programming),
-and the most common way to do it is to add [assertions](reference.html#assertion) to our code
+This is called [defensive programming]({{ page.root }}/reference/#defensive-programming),
+and the most common way to do it is to add [assertions]({{ page.root }}/reference/#assertion) to our code
 so that it checks itself as it runs.
 An assertion is simply a statement that something must be true at a certain point in a program.
 When Python sees one,
@@ -92,14 +92,14 @@ are there to check that the other 80-90% are working correctly.
 Broadly speaking,
 assertions fall into three categories:
 
-*   A [precondition](reference.html#precondition) is something that must be true at the start of a function in order for it to work correctly.
+*   A [precondition]({{ page.root }}/reference/#precondition) is something that must be true at the start of a function in order for it to work correctly.
 
-*   A [postcondition](reference.html#postcondition) is something that the function guarantees is true when it finishes.
+*   A [postcondition]({{ page.root }}/reference/#postcondition) is something that the function guarantees is true when it finishes.
 
-*   An [invariant](reference.html#invariant) is something that is always true at a particular point inside a piece of code.
+*   An [invariant]({{ page.root }}/reference/#invariant) is something that is always true at a particular point inside a piece of code.
 
 For example,
-suppose we are representing rectangles using a [tuple](reference.html#tuple) of four coordinates `(x0, y0, x1, y1)`,
+suppose we are representing rectangles using a [tuple]({{ page.root }}/reference/#tuple) of four coordinates `(x0, y0, x1, y1)`,
 representing the lower left and upper right corners of the rectangle.
 In order to do some calculations,
 we need to normalize the rectangle so that the lower left corner is at the origin
@@ -131,7 +131,7 @@ def normalize_rectangle(rect):
 ~~~
 {: .python}
 
-The preconditions on lines 2, 4, and 5 catch invalid inputs:
+The preconditions on lines 3, 5, and 6 catch invalid inputs:
 
 ~~~
 print(normalize_rectangle( (0.0, 1.0, 2.0) )) # missing the fourth coordinate
@@ -177,7 +177,7 @@ AssertionError: Invalid X coordinates
 ~~~
 {: .error}
 
-The post-conditions help us catch bugs by telling us when our calculations cannot have been correct.
+The post-conditions on lines 17 and 18 help us catch bugs by telling us when our calculations cannot have been correct.
 For example,
 if we normalize a rectangle that is taller than it is wide everything seems OK:
 
@@ -217,7 +217,7 @@ AssertionError: Calculated upper Y coordinate invalid
 {: .error}
 
 Re-reading our function,
-we realize that line 10 should divide `dy` by `dx` rather than `dx` by `dy`.
+we realize that line 11 should divide `dy` by `dx` rather than `dx` by `dy`.
 (You can display line numbers by typing Ctrl-M, then L.)
 If we had left out the assertion at the end of the function,
 we would have created and returned something that had the right shape as a valid answer,
@@ -244,7 +244,7 @@ If you made a mistake in a piece of code,
 the odds are good that you have made other mistakes nearby,
 or will make the same mistake (or a related one)
 the next time you change it.
-Writing assertions to check that you haven't [regressed](reference.html#regression)
+Writing assertions to check that you haven't [regressed]({{ page.root }}/reference/#regression)
 (i.e., haven't re-introduced an old problem)
 can save a lot of time in the long run,
 and helps to warn people who are reading the code
@@ -279,7 +279,7 @@ there's a better way:
 3.  If `range_overlap` produces any wrong answers, fix it and re-run the test functions.
 
 Writing the tests *before* writing the function they exercise
-is called [test-driven development](reference.html#test-driven-development) (TDD).
+is called [test-driven development]({{ page.root }}/reference/#test-driven-development) (TDD).
 Its advocates believe it produces better code faster because:
 
 1.  If people write tests after writing the thing to be tested,
@@ -472,26 +472,26 @@ This violates another important rule of programming:
 
 > ## Testing Assertions
 >
-> Given a sequence of values, the function `running` returns
-> a list containing the running totals at each index.
+> Given a sequence of a number of cars, the function `get_total_cars` returns
+> the total number of cars.
 >
 > ~~~
-> running([1, 2, 3, 4])
+> get_total_cars([1, 2, 3, 4])
 > ~~~
 > {: .python}
 >
 > ~~~
-> [1, 3, 6, 10]
+> 10
 > ~~~
 > {: .output}
 >
 > ~~~
-> running('abc')
+> get_total_cars(['a', 'b', 'c'])
 > ~~~
 > {: .python}
 >
 > ~~~
-> ['a', 'ab', 'abc']
+> ValueError: invalid literal for int() with base 10: 'a'
 > ~~~
 > {: .output}
 >
@@ -500,24 +500,24 @@ This violates another important rule of programming:
 > give an example of input that will make that assertion fail.
 >
 > ~~~
-> def running(values):
+> def get_total(values):
 >     assert len(values) > 0
->     result = [values[0]]
->     for v in values[1:]:
->         assert result[-1] >= 0
->         result.append(result[-1] + v)
->         assert result[-1] >= result[0]
->     return result
+>     for element in values:
+>     	assert int(element)
+>     values = [int(element) for element in values]
+>     total = sum(values)
+>     assert total > 0
+>     return total
 > ~~~
 > {: .python}
 >
 > > ## Solution
 > > *   The first assertion checks that the input sequence `values` is not empty.
 > >     An empty sequence such as `[]` will make it fail.
-> > *   The second assertion checks that the first value in the list is positive.
-> >     Input such as `[-1,0,2,3]` will make it fail.
-> > *   The third assertion checks that the running total always increases.
-> >     Input such as `[0,1,3,-5,4]` will make it fail.
+> > *   The second assertion checks that each value in the list can be turned into an integer.
+> >     Input such as `[1, 2,'c', 3]` will make it fail.
+> > *   The third assertion checks that the total of the list is greater than 0.
+> >     Input such as `[-10, 2, 3]` will make it fail.
 > {: .solution}
 {: .challenge}
 
@@ -531,14 +531,14 @@ This violates another important rule of programming:
 > >
 > > def range_overlap(ranges):
 > >     '''Return common overlap among a set of [low, high] ranges.'''
-> >     if len(ranges) == 1: # only one entry, so return it
-> >         return ranges[0]
-> >     lowest = -numpy.inf # lowest possible number
-> >     highest = numpy.inf # highest possible number
-> >     for (low, high) in ranges:
+> >     if not ranges:
+> >         # ranges is None or an empty list
+> >         return None
+> >     lowest, highest = ranges[0]
+> >     for (low, high) in ranges[1:]:
 > >         lowest = max(lowest, low)
 > >         highest = min(highest, high)
-> >     if lowest >= highest: # no overlap
+> >     if lowest >= highest:  # no overlap
 > >         return None
 > >     else:
 > >         return (lowest, highest)

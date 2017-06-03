@@ -10,7 +10,7 @@ objectives:
 - "Trace changes to a loop variable as the loop runs."
 - "Trace changes to other variables as they are updated by a for loop."
 keypoints:
-- "Use `for variable in collection` to process the elements of a collection one at a time."
+- "Use `for variable in sequence` to process the elements of a sequence one at a time."
 - "The body of a for loop must be indented."
 - "Use `len(thing)` to determine the length of something that contains other values."
 ---
@@ -132,13 +132,13 @@ n
 ~~~
 {: .output}
 
-The improved version uses a [for loop](reference.html#for-loop)
-to repeat an operation---in this case, printing---once for each thing in a collection.
+The improved version uses a [for loop]({{ page.root }}/reference/#for-loop)
+to repeat an operation---in this case, printing---once for each thing in a sequence.
 The general form of a loop is:
 
 ~~~
-for variable in collection:
-    do things with variable
+for element in variable:
+    do things with element
 ~~~
 {: .python}
 
@@ -149,10 +149,62 @@ Using the oxygen example above, the loop might look like this:
 where each character (`char`) in the variable `word` is looped through and printed one character after another.
 The numbers in the diagram denote which loop cycle the character was printed in (1 being the first loop, and 6 being the final loop).
 
-We can call the [loop variable](reference.html#loop-variable) anything we like,
+We can call the [loop variable]({{ page.root }}/reference/#loop-variable) anything we like,
 but there must be a colon at the end of the line starting the loop,
 and we must indent anything we want to run inside the loop. Unlike many other languages, there is no
 command to signify the end of the loop body (e.g. end for); what is indented after the for statement belongs to the loop.
+
+
+> ## What's in a name?
+>
+> In the example above, the loop variable was given the name `char`
+> as a mnemonic; it is short for 'character'.
+> 'Char' is not a keyword in Python that pulls the characters
+> from words or strings.
+> In fact when a similar loop is run over a list rather than a word,
+> the output would be each member of that list printed in order,
+> rather than the characters.
+>
+> ~~~
+> elements = ['oxygen', 'nitrogen', 'argon']
+> for char in elements:
+>    print(char)
+> ~~~
+> {: .python}
+>
+> ~~~
+> oxygen
+> nitrogen
+> argon
+> ~~~
+> {: .output}
+>
+> We can choose any name we want for variables.
+> We might just as easily have chosen the name `banana`
+> for the loop variable,
+> as long as we use the same name when we invoke the variable inside the loop:
+>
+> ~~~
+> word = 'oxygen'
+> for banana in word:
+>     print(banana)
+> ~~~
+> {: .python}
+>
+> ~~~
+> o
+> x
+> y
+> g
+> e
+> n
+> ~~~
+> {: .output}
+>
+> It is a good idea to choose variable names
+> that are meaningful so that it is easier
+> to understand what the loop is doing.
+{: .callout}
 
 Here's another loop that repeatedly updates a variable:
 
@@ -284,7 +336,8 @@ so we should always use it when we can.
 
 > ## Reverse a String
 >
-> Write a loop that takes a string,
+> Knowing that two strings can be concatenated using the `+` operator,
+> write a loop that takes a string
 > and produces a new string with the characters in reverse order,
 > so `'Newton'` becomes `'notweN'`.
 >
@@ -292,10 +345,53 @@ so we should always use it when we can.
 > > ~~~
 > > newstring = ''
 > > oldstring = 'Newton'
-> > length_old = len(oldstring)
-> > for char_index in range(length_old):
-> >    newstring = newstring + oldstring[length_old - char_index - 1]
+> > for char in oldstring:
+> >    newstring = char + newstring
 > > print(newstring)
+> > ~~~
+> > {: .python}
+> {: .solution}
+{: .challenge}
+
+> ## Computing the Value of a Polynomial
+>
+> The built-in function `enumerate` takes a sequence (e.g. a list) and generates a
+> new sequence of the same length. Each element of the new sequence is a pair composed of the index
+> (0, 1, 2,...) and the value from the original sequence:
+>
+> ~~~
+> for i, x in enumerate(xs):
+>     # Do something with i and x
+> ~~~
+> {: .python}
+>
+> The loop above assigns the index to `i` and the value to `x`.
+>
+> Suppose you have encoded a polynomial as a list of coefficients in
+> the following way: the first element is the constant term, the
+> second element is the coefficient of the linear term, the third is the
+> coefficient of the quadratic term, etc.
+>
+> ~~~
+> x = 5
+> cc = [2, 4, 3]
+> ~~~
+> {: .python}
+>
+> ~~~
+> y = cc[0] * x**0 + cc[1] * x**1 + cc[2] * x**2
+> y = 97
+> ~~~
+> {: .output}
+>
+> Write a loop using `enumerate(cc)` which computes the value `y` of any
+> polynomial, given `x` and `cc`.
+>
+> > ## Solution
+> > ~~~
+> > y = 0
+> > for i, c in enumerate(cc):
+> >     y = y + x**i * c
 > > ~~~
 > > {: .python}
 > {: .solution}

@@ -6,12 +6,12 @@ questions:
 - "How can I process tabular data files in Python?"
 objectives:
 - "Explain what a library is, and what libraries are used for."
-- "Import a Python library and use the things it contains."
+- "Import a Python library and use the functions it contains."
 - "Read tabular data from a file into a program."
 - "Assign values to variables."
 - "Select individual values and subsections from data."
 - "Perform operations on arrays of data."
-- "Display simple graphs."
+- "Plot simple graphs from data."
 keypoints:
 - "Import a library into a program using `import libraryname`."
 - "Use the `numpy` library to work with arrays in Python."
@@ -28,90 +28,21 @@ keypoints:
 - "Use `numpy.mean(array, axis=0)` or `numpy.mean(array, axis=1)` to calculate statistics across the specified axis."
 - "Use the `pyplot` library from `matplotlib` for creating simple visualizations."
 ---
+In this lesson we will learn how to manipulate the inflammation dataset with Python. But before we discuss how to deal with many data points, we will show how to store a single value on the computer.
 
-Words are useful,
-but what's more useful are the sentences and stories we build with them.
-Similarly,
-while a lot of powerful, general tools are built into languages like Python,
-specialized tools built up from these basic units live in [libraries](reference.html#library)
-that can be called upon when needed.
-
-In order to load our inflammation data,
-we need to access ([import](reference.html#import) in Python terminology)
-a library called [NumPy](http://docs.scipy.org/doc/numpy/ "NumPy Documentation").
-In general you should use this library if you want to do fancy things with numbers,
-especially if you have matrices or arrays.
-We can import NumPy using:
-
-~~~
-import numpy
-~~~
-{: .python}
-
-Importing a library is like getting a piece of lab equipment out of a storage locker and setting it up on the bench.
-Libraries provide additional functionality to the basic Python package,
-much like a new piece of equipment adds functionality to a lab space.
-Once you've imported the library,
-we can ask the library to read our data file for us:
-
-~~~
-numpy.loadtxt(fname='inflammation-01.csv', delimiter=',')
-~~~
-{: .python}
-
-~~~
-array([[ 0.,  0.,  1., ...,  3.,  0.,  0.],
-       [ 0.,  1.,  2., ...,  1.,  0.,  1.],
-       [ 0.,  1.,  1., ...,  2.,  1.,  1.],
-       ...,
-       [ 0.,  1.,  1., ...,  1.,  1.,  1.],
-       [ 0.,  0.,  0., ...,  0.,  2.,  0.],
-       [ 0.,  0.,  1., ...,  1.,  1.,  0.]])
-~~~
-{: .output}
-
-The expression `numpy.loadtxt(...)` is a [function call](reference.html#function-call)
-that asks Python to run the [function](reference.html#function) `loadtxt` which belongs to the `numpy` library.
-This [dotted notation](reference.html#dotted-notation) is used everywhere in Python
-to refer to the parts of things as `thing.component`.
-
-`numpy.loadtxt` has two [parameters](reference.html#parameter):
-the name of the file we want to read,
-and the [delimiter](reference.html#delimiter) that separates values on a line.
-These both need to be character strings (or [strings](reference.html#string) for short),
-so we put them in quotes.
-
-When we are finished typing and press Shift+Enter,
-the notebook runs our command.
-Since we haven't told it to do anything else with the function's output,
-the notebook displays it.
-In this case,
-that output is the data we just loaded.
-By default,
-only a few rows and columns are shown
-(with `...` to omit elements when displaying big arrays).
-To save space,
-Python displays numbers as `1.` instead of `1.0`
-when there's nothing interesting after the decimal point.
-
-Our call to `numpy.loadtxt` read our file,
-but didn't save the data in memory.
-To do that,
-we need to [assign](reference.html#assignment) the array to a [variable](reference.html#variable).
-A variable is just a name for a value,
-such as `x`, `current_temperature`, or `subject_id`.
-Python's variables must begin with a letter and are [case sensitive](reference.html#case-sensitive).
-We can create a new variable by assigning a value to it using `=`.
-As an illustration,
-let's step back and instead of considering a table of data,
-consider the simplest "collection" of data,
-a single value.
-The line below assigns the value `55` to a variable `weight_kg`:
+The line below [assigns](reference.html#assignment) the value `55` to a [variable](reference.html#variable) `weight_kg`:
 
 ~~~
 weight_kg = 55
 ~~~
 {: .python}
+
+A variable is just a name for a value,
+such as `x`, `current_temperature`, or `subject_id`.
+Python's variables must begin with a letter and are [case sensitive](reference.html#case-sensitive).
+We can create a new variable by assigning a value to it using `=`.
+When we are finished typing and press Shift+Enter,
+the notebook runs our command.
 
 Once a variable has a value, we can print it to the screen:
 
@@ -215,7 +146,74 @@ This is different from the way spreadsheets work.
 > {: .output}
 {: .callout}
 
-Just as we can assign a single value to a variable, we can also assign an array of values
+Words are useful,
+but what's more useful are the sentences and stories we build with them.
+Similarly,
+while a lot of powerful, general tools are built into languages like Python,
+specialized tools built up from these basic units live in [libraries](reference.html#library)
+that can be called upon when needed.
+
+In order to load our inflammation data,
+we need to access ([import](reference.html#import) in Python terminology)
+a library called [NumPy](http://docs.scipy.org/doc/numpy/ "NumPy Documentation").
+In general you should use this library if you want to do fancy things with numbers,
+especially if you have matrices or arrays.
+We can import NumPy using:
+
+~~~
+import numpy
+~~~
+{: .python}
+
+Importing a library is like getting a piece of lab equipment out of a storage locker and setting it up on the bench.
+Libraries provide additional functionality to the basic Python package,
+much like a new piece of equipment adds functionality to a lab space. Just like in the lab, importing too many libraries
+can sometimes complicate and slow down your programs - so we only import what we need for each program. 
+Once you've imported the library,
+we can ask the library to read our data file for us:
+
+~~~
+numpy.loadtxt(fname='inflammation-01.csv', delimiter=',')
+~~~
+{: .python}
+
+~~~
+array([[ 0.,  0.,  1., ...,  3.,  0.,  0.],
+       [ 0.,  1.,  2., ...,  1.,  0.,  1.],
+       [ 0.,  1.,  1., ...,  2.,  1.,  1.],
+       ...,
+       [ 0.,  1.,  1., ...,  1.,  1.,  1.],
+       [ 0.,  0.,  0., ...,  0.,  2.,  0.],
+       [ 0.,  0.,  1., ...,  1.,  1.,  0.]])
+~~~
+{: .output}
+
+The expression `numpy.loadtxt(...)` is a [function call](reference.html#function-call)
+that asks Python to run the [function](reference.html#function) `loadtxt` which belongs to the `numpy` library.
+This [dotted notation](reference.html#dotted-notation) is used everywhere in Python
+to refer to the parts of things as `thing.component`.
+
+`numpy.loadtxt` has two [parameters](reference.html#parameter):
+the name of the file we want to read,
+and the [delimiter](reference.html#delimiter) that separates values on a line.
+These both need to be character strings (or [strings](reference.html#string) for short),
+so we put them in quotes.
+
+Since we haven't told it to do anything else with the function's output,
+the notebook displays it.
+In this case,
+that output is the data we just loaded.
+By default,
+only a few rows and columns are shown
+(with `...` to omit elements when displaying big arrays).
+To save space,
+Python displays numbers as `1.` instead of `1.0`
+when there's nothing interesting after the decimal point.
+
+Our call to `numpy.loadtxt` read our file,
+but didn't save the data in memory.
+To do that,
+we need to assign the array to a variable. Just as we can assign a single value to a variable, we can also assign an array of values
 to a variable using the same syntax.  Let's re-run `numpy.loadtxt` and save its result:
 
 ~~~
@@ -246,7 +244,7 @@ print(data)
 Now that our data is in memory,
 we can start doing things with it.
 First,
-let's ask what [type](reference.html#type) of thing `data` refers to:
+let's ask what [type]({{ page.root }}/reference/#type) of thing `data` refers to:
 
 ~~~
 print(type(data))
@@ -283,10 +281,10 @@ are their daily inflammation measurements.
 > {: .output}
 >
 > This tells us that the NumPy array's elements are
-> [floating-point numbers](reference.html#floating-point number).
+> [floating-point numbers]({{ page.root }}/reference/#floating-point number).
 {: .callout}
 
-We can see what the array's [shape](reference.html#shape) is like this:
+We can see what the array's [shape]({{ page.root }}/reference/#shape) is like this:
 
 ~~~
 print(data.shape)
@@ -300,7 +298,7 @@ print(data.shape)
 
 This tells us that `data` has 60 rows and 40 columns. When we created the
 variable `data` to store our arthritis data, we didn't just create the array, we also
-created information about the array, called [members](reference.html#member) or
+created information about the array, called [members]({{ page.root }}/reference/#member) or
 attributes. This extra information describes `data` in
 the same way an adjective describes a noun.
 `data.shape` is an attribute  of `data` which describes the dimensions of `data`.
@@ -309,7 +307,7 @@ that we use for the functions in libraries
 because they have the same part-and-whole relationship.
 
 If we want to get a single number from the array,
-we must provide an [index](reference.html#index) in square brackets,
+we must provide an [index]({{ page.root }}/reference/#index) in square brackets,
 just as we do in math:
 
 ~~~
@@ -334,12 +332,14 @@ middle value in data: 13.0
 
 The expression `data[30, 20]` may not surprise you,
 but `data[0, 0]` might.
-Programming languages like Fortran and MATLAB start counting at 1,
+Programming languages like Fortran, MATLAB and R start counting at 1,
 because that's what human beings have done for thousands of years.
 Languages in the C family (including C++, Java, Perl, and Python) count from 0
-because that's more convenient when indices are computed rather than constant
-(see [Mike Hoye's blog post](http://exple.tive.org/blarg/2013/10/22/citation-needed/)
-for historical details).
+because it represents an offset from the first value in the array (the second
+value is offset by one index from the first value). This is closer to the way
+that computers represent arrays (if you are interested in the historical
+reasons behind counting indices from zero, you can read
+[Mike Hoye's blog post](http://exple.tive.org/blarg/2013/10/22/citation-needed/)).
 As a result,
 if we have an M×N array in Python,
 its indices go from 0 to M-1 on the first axis
@@ -378,7 +378,7 @@ print(data[0:4, 0:10])
 ~~~
 {: .output}
 
-The [slice](reference.html#slice) `0:4` means,
+The [slice]({{ page.root }}/reference/#slice) `0:4` means,
 "Start at index 0 and go up to, but not including, index 4."
 Again,
 the up-to-but-not-including takes a bit of getting used to,
@@ -503,8 +503,8 @@ print(numpy.mean(data))
 ~~~
 {: .output}
 
-`mean` is a [function](reference.html#function) that takes
-an array as an [argument](reference.html#argument).
+`mean` is a [function]({{ page.root }}/reference/#function) that takes
+an array as an [argument]({{ page.root }}/reference/#argument).
 If variables are nouns, functions are verbs:
 they do things with variables.
 
@@ -582,7 +582,7 @@ maximum inflammation for patient 0: 18.0
 {: .output}
 
 Everything in a line of code following the '#' symbol is a
-[comment](reference.html#comment) that is ignored by the computer.
+[comment]({{ page.root }}/reference/#comment) that is ignored by the computer.
 Comments allow programmers to leave explanatory notes for other
 programmers or their future selves.
 
@@ -675,7 +675,7 @@ and use two of its functions to create and display a heat map of our data:
 
 ~~~
 import matplotlib.pyplot
-image  = matplotlib.pyplot.imshow(data)
+image = matplotlib.pyplot.imshow(data)
 matplotlib.pyplot.show()
 ~~~
 {: .python}
@@ -694,7 +694,7 @@ inflammation rises and falls over a 40-day period.
 > in the notebook when `show()` is called:
 >
 > ~~~
-> % matplotlib inline
+> %matplotlib inline
 > ~~~
 > {: .python}
 >
@@ -751,7 +751,7 @@ You can group similar plots in a single figure using subplots.
 This script below uses a number of new commands. The function `matplotlib.pyplot.figure()`
 creates a space into which we will place all of our plots. The parameter `figsize`
 tells Python how big to make this space. Each subplot is placed into the figure using
-its `add_subplot` [method](reference.html#method). The `add_subplot` method takes 3 parameters. The first denotes
+its `add_subplot` [method]({{ page.root }}/reference/#method). The `add_subplot` method takes 3 parameters. The first denotes
 how many total rows of subplots there are, the second parameter refers to the
 total number of subplot columns, and the final parameter denotes which subplot
 your variable is referencing (left-to-right, top-to-bottom). Each subplot is stored in a
@@ -788,7 +788,7 @@ matplotlib.pyplot.show()
 
 ![The Previous Plots as Subplots](../fig/01-numpy_80_0.png)
 
-The [call](reference.html#function-call) to `loadtxt` reads our data,
+The [call]({{ page.root }}/reference/#function-call) to `loadtxt` reads our data,
 and the rest of the program tells the plotting library
 how large we want the figure to be,
 that we're creating three subplots,
@@ -806,8 +806,8 @@ the graphs will actually be squeezed together more closely.)
 > to make a shortcut like so: `import numpy as np`.
 > If you ever see Python code online using a NumPy function with `np`
 > (for example, `np.loadtxt(...)`), it's because they've used this shortcut.
+> When working with other people, it is important to agree on a convention of how common libraries are imported.
 {: .callout}
-
 > ## Check Your Understanding
 >
 > Draw diagrams showing what variables refer to what values after each statement in the following program:
@@ -842,7 +842,7 @@ the graphs will actually be squeezed together more closely.)
 
 > ## Slicing Strings
 >
-> A section of an array is called a [slice](reference.html#slice).
+> A section of an array is called a [slice]({{ page.root }}/reference/#slice).
 > We can take slices of character strings as well:
 >
 > ~~~
@@ -893,7 +893,7 @@ the graphs will actually be squeezed together more closely.)
 
 > ## Thin Slices
 >
-> The expression `element[3:3]` produces an [empty string](reference.html#empty-string),
+> The expression `element[3:3]` produces an [empty string]({{ page.root }}/reference/#empty-string),
 > i.e., a string that contains no characters.
 > If `data` holds our array of patient data,
 > what does `data[3:3, 4:4]` produce?
@@ -952,11 +952,42 @@ the graphs will actually be squeezed together more closely.)
 
 > ## Drawing Straight Lines
 >
-> Why are the vertical lines in our plot of the minimum inflammation per day
-> not perfectly vertical?
+> In the center and right subplots above, we  expect all lines to look like step functions, because
+> non-integer value are not realistic for the minimum and maximum values. However, you can see
+> that the lines are not always vertical or horizontal, and in particular the step function
+> in the subplot on the right looks slanted. Why is this?
 >
 > > ## Solution
-> > Because matplotlib interpolates (draws a straight line) between the points
+> > Because matplotlib interpolates (draws a straight line) between the points.
+> > One way to do avoid this is to use the Matplotlib `drawstyle` option:
+> >
+> > ~~~
+> > import numpy
+> > import matplotlib.pyplot
+> >
+> > data = numpy.loadtxt(fname='inflammation-01.csv', delimiter=',')
+> >
+> > fig = matplotlib.pyplot.figure(figsize=(10.0, 3.0))
+> >
+> > axes1 = fig.add_subplot(1, 3, 1)
+> > axes2 = fig.add_subplot(1, 3, 2)
+> > axes3 = fig.add_subplot(1, 3, 3)
+> >
+> > axes1.set_ylabel('average')
+> > axes1.plot(numpy.mean(data, axis=0), drawstyle='steps-mid')
+> >
+> > axes2.set_ylabel('max')
+> > axes2.plot(numpy.max(data, axis=0), drawstyle='steps-mid')
+> >
+> > axes3.set_ylabel('min')
+> > axes3.plot(numpy.min(data, axis=0), drawstyle='steps-mid')
+> >
+> > fig.tight_layout()
+> >
+> > matplotlib.pyplot.show()
+> > ~~~
+> > {: .python}
+> ![Plot with step lines](../fig/01-numpy_exercise_0.png)
 > {: .solution}
 {: .challenge}
 
@@ -1055,4 +1086,129 @@ the graphs will actually be squeezed together more closely.)
 > Write some additional code that slices the first and last columns of `A`,
 > and stacks them into a 3x2 array.
 > Make sure to `print` the results to verify your solution.
+>
+> > ## Solution
+> >
+> > A 'gotcha' with array indexing is that singleton dimensions
+> > are dropped by default. That means `A[:, 0]` is a one dimensional
+> > array, which won't stack as desired. To preserve singleton dimensions,
+> > the index itself can be a slice or array. For example, `A[:, :1]` returns
+> > a two dimensional array with one singleton dimension (i.e. a column
+> > vector).
+> >
+> > ~~~
+> > D = numpy.hstack((A[:, :1], A[:, -1:]))
+> > print('D = ')
+> > print(D)
+> > ~~~
+> > {: .python}
+> >
+> > ~~~
+> > D =
+> > [[1 3]
+> >  [4 6]
+> >  [7 9]]
+> > ~~~
+> > {: .output}
+> {: .solution}
+>
+> > ## Solution
+> >
+> > An alternative way to achieve the same result is to use Numpy's
+> > delete function to remove the second column of A.
+> >
+> > ~~~
+> > D = numpy.delete(A, 1, 1)
+> > print('D = ')
+> > print(D)
+> > ~~~
+> > {: .python}
+> >
+> > ~~~
+> > D =
+> > [[1 3]
+> >  [4 6]
+> >  [7 9]]
+> > ~~~
+> > {: .output}
+> {: .solution}
+{: .challenge}
+
+>## Change In Inflamation
+>
+>This patient data is _longitudinal_ in the sense that each row represents a
+>series of observations relating to one individual. This means that change
+>inflamation is a meaningful concept.
+>
+>The `numpy.diff()` function takes a NumPy array and returns the 
+>difference along a specified axis.
+>
+>Which axis would it make sense to use this function along?
+>
+> > ## Solution
+> > Since the row axis (0) is patients, it does not make sense to get the
+> > difference between two arbitrary patients. The column axis (1) is in
+> > days, so the differnce is the change in inflamation -- a meaningful
+> > concept.
+> >
+> > ~~~
+> > numpy.diff(data, axis=1)
+> > ~~~
+> > {: .python}
+> {: .solution}
+>
+>If the shape of an individual data file is `(60, 40)` (60 rows and 40
+>columns), what would the shape of the array be after you run the `diff()`
+>function and why?
+>
+> > ## Solution
+> > The shape will be `(60, 39)` because there is one fewer difference between
+> > columns than there are columns in the data.
+> {: .solution}
+>
+>How would you find the largest change in inflammation for each patient? Does
+>it matter if the change in inflammation is an increase or a decrease?
+>
+> > ## Solution
+> > By using the `numpy.max()` function after you apply the `numpy.diff()`
+> > function, you will get the largest difference between days.
+> >
+> > ~~~
+> > numpy.max(numpy.diff(data, axis=1), axis=1)
+> > ~~~
+> > {: .python}
+> >
+> > ~~~
+> > array([  7.,  12.,  11.,  10.,  11.,  13.,  10.,   8.,  10.,  10.,   7.,
+> >          7.,  13.,   7.,  10.,  10.,   8.,  10.,   9.,  10.,  13.,   7.,
+> >         12.,   9.,  12.,  11.,  10.,  10.,   7.,  10.,  11.,  10.,   8.,
+> >         11.,  12.,  10.,   9.,  10.,  13.,  10.,   7.,   7.,  10.,  13.,
+> >         12.,   8.,   8.,  10.,  10.,   9.,   8.,  13.,  10.,   7.,  10.,
+> >          8.,  12.,  10.,   7.,  12.])
+> > ~~~
+> > {: .python}
+> >
+> > If a difference is a *decrease*, then the difference will be negative. If
+> > you are interested in the **magnitude** of the change and not just the
+> > direction, the `numpy.absolute()` function will provide that.
+> >
+> > Notice the difference if you get the largest _absolute_ difference
+> > between readings.
+> >
+> > ~~~
+> > numpy.max(numpy.absolute(numpy.diff(data, axis=1)), axis=1)
+> > ~~~
+> > {: .python}
+> >
+> > ~~~
+> > array([ 12.,  14.,  11.,  13.,  11.,  13.,  10.,  12.,  10.,  10.,  10.,
+> >         12.,  13.,  10.,  11.,  10.,  12.,  13.,   9.,  10.,  13.,   9.,
+> >         12.,   9.,  12.,  11.,  10.,  13.,   9.,  13.,  11.,  11.,   8.,
+> >         11.,  12.,  13.,   9.,  10.,  13.,  11.,  11.,  13.,  11.,  13.,
+> >         13.,  10.,   9.,  10.,  10.,   9.,   9.,  13.,  10.,   9.,  10.,
+> >         11.,  13.,  10.,  10.,  12.])
+> > ~~~
+> > {: .python}
+> >
+> {: .solution}
 {: .challenge}

@@ -1,5 +1,6 @@
 ---
 layout: lesson
+root: .
 ---
 
 The best way to learn how to program is to do something useful,
@@ -22,7 +23,7 @@ and to use that language *well*.
 
 We are studying inflammation in patients who have been given a new treatment for arthritis,
 and need to analyze the first dozen data sets of their daily inflammation.
-The data sets are stored in [comma-separated values](reference.html#comma-separated-values) (CSV) format:
+The data sets are stored in [comma-separated values]({{ page.root }}/reference/#comma-separated-values) (CSV) format:
 each row holds information for a single patient,
 and the columns represent successive days.
 The first few rows of our first file look like this:
@@ -52,3 +53,6 @@ To do all that, we'll have to learn a little bit about programming.
 > Notebook although it can be taught through any Python interpreter.
 > The commands in this lesson pertain to **Python 3**.
 {: .prereq}
+
+### Getting Started
+To get started, follow the directions in the "[Setup](setup/)" tab to download data to your computer and follow any installation instructions. 

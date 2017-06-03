@@ -57,7 +57,7 @@ regenerate the above figure --->
 
 The function definition opens with the keyword `def` followed by the
 name of the function and a parenthesized list of parameter names. The
-[body](reference.html#function-body) of the function --- the
+[body]({{ page.root }}/reference/#function-body) of the function --- the
 statements that are executed when it runs --- is indented below the
 definition line.
 
@@ -65,11 +65,17 @@ When we call the function,
 the values we pass to it are assigned to those variables
 so that we can use them inside the function.
 Inside the function,
-we use a [return statement](reference.html#return-statement) to send a result back to whoever asked for it.
+we use a [return statement]({{ page.root }}/reference/#return-statement) to send a result back to whoever asked for it.
 
 Let's try running our function.
-Calling our own function is no different from calling any other function:
 
+~~~
+fahr_to_kelvin(32)
+~~~
+
+This command should call our function, using "32" as the input and return the function value.
+
+In fact, calling our own function is no different from calling any other function:
 ~~~
 print('freezing point of water:', fahr_to_kelvin(32))
 print('boiling point of water:', fahr_to_kelvin(212))
@@ -199,7 +205,7 @@ What about converting Fahrenheit to Celsius?
 We could write out the formula,
 but we don't need to.
 Instead,
-we can [compose](reference.html#compose) the two functions we have already created:
+we can [compose]({{ page.root }}/reference/#compose) the two functions we have already created:
 
 ~~~
 def fahr_to_celsius(temp_f):
@@ -391,10 +397,10 @@ the difference is very small.
 It's still possible that our function is wrong,
 but it seems unlikely enough that we should probably get back to doing our analysis.
 We have one more task first, though:
-we should write some [documentation](reference.html#documentation) for our function
+we should write some [documentation]({{ page.root }}/reference/#documentation) for our function
 to remind ourselves later what it's for and how to use it.
 
-The usual way to put documentation in software is to add [comments](reference.html#comment) like this:
+The usual way to put documentation in software is to add [comments]({{ page.root }}/reference/#comment) like this:
 
 ~~~
 # center(data, desired): return a new array containing the original data centered around the desired value.
@@ -429,7 +435,7 @@ center(data, desired)
 ~~~
 {: .output}
 
-A string like this is called a [docstring](reference.html#docstring).
+A string like this is called a [docstring]({{ page.root }}/reference/#docstring).
 We don't need to use triple quotes when we write one,
 but if we do,
 we can break the string across multiple lines:
@@ -530,7 +536,7 @@ print(center(test_data, 3))
 {: .output}
 
 But we can also now call it with just one parameter,
-in which case `desired` is automatically assigned the [default value](reference.html#default-value) of 0.0:
+in which case `desired` is automatically assigned the [default value]({{ page.root }}/reference/#default-value) of 0.0:
 
 ~~~
 more_data = 5 + numpy.zeros((2, 2))
@@ -943,8 +949,8 @@ readable code!
 > Given that, what does the following piece of code display when run?
 >
 > ~~~
-> def func(a, b = 3, c = 6):
->   print('a: ', a, 'b: ', b,'c:', c)
+> def func(a, b=3, c=6):
+>   print('a: ', a, 'b: ', b, 'c:', c)
 >
 > func(-1, 2)
 > ~~~
@@ -954,16 +960,28 @@ readable code!
 > 2. `a: -1 b: 3 c: 6`
 > 3. `a: -1 b: 2 c: 6`
 > 4. `a: b: -1 c: 2`
+>
+> > ## Solution
+> > Attempting to define the `numbers` function results in `4. SyntaxError`.
+> > The defined parameters `two` and `four` are given default values. Because
+> > `one` and `three` are not given default values, they are required to be 
+> > included as arguments when the function is called and must be placed
+> > before any parameters that have default values in the function definition.
+> > 
+> > The given call to `func` displays `a: -1 b: 2 c: 6`. -1 is assigned to
+> > the first parameter `a`, 2 is assigned to the next parameter `b`, and `c` is
+> > not passed a value, so it uses its default value 6.
+> {: .solution}
 {: .challenge}
 
 > ## The Old Switcheroo
 >
 > Which of the following would be printed if you were to run this code? Why did you pick this answer?
 >
-> a. 7 3
-> b. 3 7
-> c. 3 3
-> d. 7 7
+> 1. `7 3`
+> 2. `3 7`
+> 3. `3 3`
+> 4. `7 7`
 >
 > ~~~
 > a = 3
@@ -979,6 +997,13 @@ readable code!
 > print(a, b)
 > ~~~
 > {: .python}
+> > ## Solution
+> > `3, 7` is correct. Initially `a` has a value of 3 and `b` has a value of 7.
+> > When the swap function is called, it creates local variables (also called
+> > `a` and `b` in this case) and trades their values. The function does not
+> > return any values and does not alter `a` or `b` outside of its local copy.
+> > Therefore the original values of `a` and `b` remain unchanged.
+> {: .solution}
 {: .challenge}
 
 > ## Readable Code
